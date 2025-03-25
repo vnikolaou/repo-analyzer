@@ -1,0 +1,198 @@
+<h2 class="form-title">Edit Repository</h2>
+<div *ngIf="message" class="error" style="margin-left: 20px">{{ message }}</div>
+<div *ngIf="success" class="success" style="margin-left: 20px">{{ success }}</div>
+<div class="run-form-container">
+  <form (ngSubmit)="updateRepoItem(repoForm)" #repoForm="ngForm">
+    <table>
+      <tr>
+        <td class="label-column"><label>ID:</label></td>
+        <td>
+         <div style="width:70%">{{repo.repoId}}</div>
+        </td>
+      </tr>     
+      <tr>
+        <td class="label-column"><label>Full name:</label></td>
+        <td>
+         <div style="width:70%">{{repo.fullName}}</div>
+        </td>
+      </tr>   
+            <tr>
+        <td class="label-column"><label>Clone Url:</label></td>
+        <td>
+			<div style="width: 70%; display: flex; align-items: center; gap: 7px;">
+			  {{ repo.cloneUrl }}
+			  <span (click)="copyToClipboard()" style="cursor: pointer;" title="Copy URL">⧉</span>
+			</div>
+			<span *ngIf="copied" style="color: green; font:smaller">✔ Copied!</span>
+        </td>
+      </tr>   
+      <tr>
+        <td class="label-column"><label>Created At:</label></td>
+        <td>
+         <div style="width:70%">{{repo.createdAt}}</div>
+        </td>
+      </tr> 
+      <tr>
+        <td class="label-column"><label>Updated At:</label></td>
+        <td>
+         <div style="width:70%">{{repo.updatedAt}}</div>
+        </td>
+      </tr> 
+        <tr>
+        <td class="label-column"><label>Pushed At:</label></td>
+        <td>
+         <div style="width:70%">{{repo.pushedAt}}</div>
+        </td>
+      </tr>       
+             <tr>
+        <td class="label-column"><label>License:</label></td>
+        <td>
+         <div style="width:70%">{{repo.license}}</div>
+        </td> 
+      </tr>  
+      <tr>
+        <td class="label-column"><label for="chosen">Chosen:</label></td>
+        <td>
+         <div style="width:70%;">
+         	<input type="checkbox" id="chosen" name="chosen" [(ngModel)]="repo.chosen">
+         </div>
+        </td>
+      </tr>   
+       <tr>
+        <td class="label-column"><label for="cloned">Cloned:</label></td>
+        <td>
+         <input type="checkbox" id="cloned" name="cloned" [(ngModel)]="repo.cloned">
+        </td>
+      </tr>       
+      <tr>
+        <td class="label-column"><label for="analyzed">Analyzed:</label></td>
+        <td>
+         <div style="width:70%">
+         	<input type="checkbox" id="analyzed" name="analyzed" [(ngModel)]="repo.analyzed">
+         </div>
+        </td>
+      </tr>   
+      <tr>
+        <td class="label-column"><label for="commitid">Commit Id:</label></td>
+        <td>
+         <div style="width:70%">
+         	<input id="commitid" style="width:150px" [(ngModel)]="repo.commitId" type="text" name="commitid" #commitid="ngModel"/>
+         </div>
+        </td>
+      </tr>         
+      <tr>
+        <td class="label-column"><label for="coverage">Coverage:</label></td>
+        <td>
+          <input id="coverage" style="width:100px" [(ngModel)]="repo.coverage" type="number" name="coverage" 
+              min="0" step="1" max="100"
+           #coverage="ngModel"/>
+          <div *ngIf="coverage.invalid && (coverage.dirty || coverage.touched)" class="error">
+		    <span *ngIf="coverage.errors?.min">Coverage must be a positive number.</span>
+		    <span *ngIf="coverage.errors?.max">Coverage's value cannot exceed 100.</span>
+          </div>
+        </td>
+      </tr> 
+      <tr>
+        <td class="label-column"><label for="complexity">Complexity:</label></td>
+        <td>
+          <input id="complexity" style="width:100px" [(ngModel)]="repo.complexity" type="number" name="complexity" 
+              min="0" step="1" 
+           #complexity="ngModel"/>
+          <div *ngIf="coverage.invalid && (coverage.dirty || coverage.touched)" class="error">
+		    <span *ngIf="coverage.errors?.min">Coverage must be a positive number.</span>
+          </div>
+        </td>
+      </tr> 
+       <tr>
+        <td class="label-column"><label for="failed">Failed:</label></td>
+        <td>
+         <div style="width:70%">
+         <input type="checkbox" id="failed" name="failed" [(ngModel)]="repo.failed">
+         </div>
+        </td>
+      </tr>        
+      <tr>
+        <td class="label-column"><label for="comments">Comments:</label></td>
+        <td>
+           <div style="width:70%">
+          	<textarea id="comments" style="width:300px; height:60px" [(ngModel)]="repo.comments" name="comments" #comments="ngModel"></textarea>
+          </div>
+        </td>
+      </tr>                            
+      <tr>
+        <td class="label-column"><label>Size:</label></td>
+        <td>
+         <div style="width:70%">{{repo.size}}</div>
+        </td>
+      </tr> 
+      <tr>
+        <td class="label-column"><label>Stars:</label></td>
+        <td>
+         <div style="width:70%">{{repo.stars}}</div>
+        </td>
+      </tr> 
+      <tr>
+        <td class="label-column"><label>Forks:</label></td>
+        <td>
+         <div style="width:70%">{{repo.forks}}</div>
+        </td>
+      </tr>   
+      <tr>
+        <td class="label-column"><label>Watchers:</label></td>
+        <td>
+         <div style="width:70%">{{repo.watchers}}</div>
+        </td>
+      </tr>   
+      <tr>
+        <td class="label-column"><label for="commits">Commits:</label></td>
+        <td>
+          <input id="commits" style="width:100px" [(ngModel)]="repo.commits" type="number" name="commits" 
+              min="0" step="1" #commits="ngModel"/>
+          <div *ngIf="commits.invalid && (commits.dirty || commits.touched)" class="error">
+		    <span *ngIf="commits.errors?.min">Commits must be a positive number.</span>
+          </div>
+        </td>
+      </tr>       
+      <tr>
+        <td class="label-column"><label for="contributors">Contributors:</label></td>
+        <td>
+          <input id="contributors" style="width:100px" [(ngModel)]="repo.contributors" type="number" name="contributors" 
+              min="0" step="1" #contributors="ngModel"/>
+          <div *ngIf="contributors.invalid && (contributors.dirty || contributors.touched)" class="error">
+		    <span *ngIf="contributors.errors?.min">Contributors must be a positive number.</span>
+          </div>
+        </td>
+      </tr>               
+      <tr>
+        <td class="label-column"><label>Has issues:</label></td>
+        <td>
+         <div style="width:70%; margin-left:4px">{{repo.hasIssues ? '✔' : '✖'}}</div>
+        </td>
+      </tr>  
+      <tr>
+        <td class="label-column"><label>Open issues:</label></td>
+        <td>
+         <div style="width:70%">{{repo.openIssues}}</div>
+        </td>
+      </tr>             
+        <tr>
+        <td class="label-column"><label>SSH Url:</label></td>
+        <td>
+         <div style="width:70%">{{repo.sshUrl}}</div>
+        </td>
+      </tr>    
+       <tr>
+        <td class="label-column"><label>Private:</label></td>
+        <td>
+         <div style="width:70%; margin-left:4px">{{repo.isPrivate ? '✔' : '✖'}}</div>
+        </td>
+      </tr>                                                                           
+      <tr>
+        <td colspan="2" class="button-row">
+          <button type="submit" [disabled]="repoForm.invalid">Save</button>
+          <button type="button" (click)="cancel()">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

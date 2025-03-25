@@ -1,0 +1,38 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.run-table {
+  width: 100%;
+  max-width: 1400px;
+  border-collapse: collapse;
+}
+
+.run-table th, .run-table td {
+  border: 1px solid 
+#ddd;
+  padding: 8px;
+}
+
+.run-table th {
+  background-color: 
+#f2f2f2;
+  text-align: left;
+}
+
+@media (max-width: 840px) {
+  .run-table {
+    width: 100%;
+  }
+}
+
+.run-table button {
+  margin: 0 1px;
+}

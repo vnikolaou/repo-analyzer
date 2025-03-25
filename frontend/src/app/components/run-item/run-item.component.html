@@ -1,0 +1,115 @@
+<h2 class="form-title">{{ isEditMode ? 'Edit Run Item' : 'Create Run Item' }}</h2>
+<div *ngIf="message" class="error" style="margin-left: 20px">{{ message }}</div>
+<div class="run-form-container">
+  <form (ngSubmit)="saveRunItem(runForm)" #runForm="ngForm">
+    <table>
+      <tr>
+        <td class="label-column"><label for="name">Name:</label></td>
+        <td>
+          <input id="name" style="width:70%" [(ngModel)]="runItem.name" name="name" required #name="ngModel" (ngModelChange)="isSaved = false"/>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
+            Name is required.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-column"><label for="searchQuery">Search Query:</label></td>
+        <td>
+          <div *ngIf="!isSelectionStarted">
+	          <textarea id="searchQuery" style="width:95%; height:60px" [(ngModel)]="runItem.searchQuery" name="searchQuery" required #searchQuery="ngModel" (ngModelChange)="isSaved = false"></textarea>
+	          <div *ngIf="searchQuery.invalid && (searchQuery.dirty || searchQuery.touched)" class="error">
+	            Search Query is required.
+	          </div>
+          </div>
+          <div *ngIf="isSelectionStarted">{{runItem.searchQuery}}</div>
+        </td>
+      </tr>
+      <tr *ngIf="isEditMode">
+        <td class="label-column"><label>Status:</label></td>
+        <td>
+          <div>{{runItem.status}}</div>
+        </td>
+      </tr>
+      <tr *ngIf="isQueried || isSelectionStarted">
+  		<td class="label-column"><label for="totalResults">Total Results:</label></td>
+  		<td>
+    		<div>{{runItem.totalResults}}</div>
+  		</td>
+	</tr>
+
+      <tr>
+        <td colspan="2" class="button-row">
+          <button type="submit" [disabled]="runForm.invalid || isSaved">Save</button>
+          <button type="button" (click)="cancel()">Cancel</button>
+          <button *ngIf="isEditMode && isInitialized" type="button" (click)="queryTotalResults()">Query</button>
+          <button *ngIf="isEditMode && isInitialized" type="button" [disabled]="!(isSaved && isQueried && isValidSize)" (click)="initCloning()">Fetch</button>
+          <button *ngIf="isEditMode && isSelectionStarted" type="button" (click)="getSample()">Sample</button>
+          <button *ngIf="isEditMode && isAnalysisStarted" type="button" (click)="finalize()">Finalize</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>
+
+<div *ngIf="repos && repos.length" style="margin-left: 20px; margin-top:35px">
+<h2 class="form-title" style="margin-left: 0px">Fetched Repositories</h2>
+<a id="top" (click)="scrollTo('bottom')">Go to Bottom</a>
+<table class="run-table">
+  <thead>
+    <tr>
+      <th>Repo ID</th>
+      <th>Full Name</th>
+      <th>Stars</th>
+      <th>Forks</th>
+      <th>Size</th>
+      <th>License</th>
+      <th>Coverage</th>
+      <th>Complexity</th>
+      <th>Created At</th>
+      <th>Pushed At</th>
+      <th>Chosen</th>  
+      <th>Cloned</th>  
+      <th>Analysed</th>  
+      <th>Failed</th>  
+      <th style="width:300px">Comments</th>
+      <th style="width:100px">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let repo of repos; let i = index">
+        <tr *ngIf="isNewYear(i)" class="group-header">
+          <td colspan="16" style="background-color: lightgrey"><i>{{ showGroupInfo(repo) }}</i></td>
+        </tr>    
+	    <tr [ngClass]="getRowClass(repo)">
+	      <td>{{ repo.repoId }}</td>
+	      <td>{{ repo.fullName }}</td>
+	      <td>{{ repo.stars }}</td>
+	      <td>{{ repo.forks }}</td>
+	      <td>{{ repo.size }}</td>
+	      <td>{{ repo.license }}</td>
+	      <td>{{ repo.coverage }}</td>
+	      <td>{{ repo.complexity }}</td>
+	      <td>{{ repo.createdAt }}</td>  
+	      <td>{{ repo.pushedAt }}</td> 
+	      <td>{{repo.chosen ? '✔' : '✖'}}</td> 
+	      <td>{{repo.cloned ? '✔' : '✖'}}</td> 
+	      <td>{{repo.analyzed ? '✔' : '✖'}}</td> 
+	      <td>{{repo.failed ? '✔' : '✖'}}</td> 
+	      <td>{{ repo.comments }}</td>
+	      <td style="text-align: center">
+	        <button (click)="editRepo(repo)">Edit</button>
+	      </td>
+	    </tr>
+    </ng-container>
+  </tbody>
+</table>
+<a  id="bottom" (click)="scrollTo('top')">Go to Top</a>
+<div style="margin-bottom: 40px"></div>
+</div>	
+<!--  
+<app-clone-progress *ngIf="showCloneProgress"></app-clone-progress>
+-->

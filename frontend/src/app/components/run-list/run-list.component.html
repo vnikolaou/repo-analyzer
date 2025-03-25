@@ -1,0 +1,33 @@
+<div class="run-container">
+  <div class="run-header" style="margin-bottom:20px">
+    <div class="run-title">Run Items</div>
+    <button (click)="createRunItem()">Create New</button>
+  </div>
+  <div *ngIf="message" class="error" style="margin: 0px 0px 20px 0">
+    {{ message }}
+  </div>
+  
+  <table class="run-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Search Query</th>
+        <th>Status</th>
+        <th style="width:100px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of runItems">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.searchQuery }}</td>
+        <td>{{ item.status }}</td>
+        <td style="text-align: center">
+          <button (click)="editRunItem(item)">Edit</button>
+          <button (click)="deleteRunItem(item)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

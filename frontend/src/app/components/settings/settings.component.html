@@ -1,0 +1,20 @@
+<div class="settings-container">
+  <div class="settings-title">Settings</div>
+  <div *ngIf="message" [ngClass]="messageType" class="message" style="margin: 20px 0px 20px 0">{{ message }}</div>
+  <table class="settings-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let setting of settings">
+        <td>{{ setting.key }}</td>
+        <td><input [(ngModel)]="setting.value" /></td>
+        <td><button (click)="updateSetting(setting)">Update</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

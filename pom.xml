@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.pionware.oss</groupId>
+	<artifactId>repo-analyzer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>repo-analyzer</name>
+	<description>Code coverage analyzer tool for repositories on GitHub</description>
+	<packaging>jar</packaging>
+	
+	<url>https://github.com/pionware/repo-analyzer</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<developers>
+	  <developer>
+	    <id>vnikolaou</id>
+	    <name>Evangelos Nikolaou</name>
+	    <email>vnikolaou12@gmail.com</email>
+	    <url>https://github.com/vnikolaou</url>
+	    <organization>Pionware LTD</organization>
+	    <organizationUrl>https://pionware.net</organizationUrl>
+	    <roles>
+	      <role>manager</role>
+		  <role>architect</role>
+		  <role>developer</role>
+		  <role>tester</role>
+	    </roles>
+	    <timezone>+2</timezone>
+	  </developer>
+	</developers>
+
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>5.13.0.202109080827-r</version>
+		</dependency>
+
+
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
