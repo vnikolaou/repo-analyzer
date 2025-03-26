@@ -34,16 +34,6 @@ public class RepoController {
         this.gitHubService = gitHubService;
         this.repoService = repoService;
     }
-    
-    private static final List<String> STATUS_MESSAGES = List.of(
-            "Initializing cloning process...",
-            "Connecting to repository...",
-            "Cloning repository...",
-            "Fetching latest commits...",
-            "Clone completed successfully!",
-            "Clone failed due to network issue."
-        );
-
 
     @GetMapping("/total-results")
     public ResponseEntity<Optional<Integer>> getSearchTotalResults(@RequestParam("q") String query) throws Exception {
@@ -51,14 +41,6 @@ public class RepoController {
             throw new IllegalArgumentException("Query parameter 'q' must not be null or empty");
         }
         return ResponseEntity.ok(gitHubService.getSearchTotalResults(query));
-    }
-    
-    @GetMapping(value = "/clone-progress", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> streamCloneProgress() {
-    	return Flux.fromStream(IntStream.range(0, STATUS_MESSAGES.size())
-    			.mapToObj(i -> STATUS_MESSAGES.get(i)))
-    			.delayElements(Duration.ofSeconds(2)) // Simulate real-time updates
-    			.map(msg -> "{\"message\": \"" + msg + "\"}");
     }
     
     @GetMapping(value = "/fetch-repos")
@@ -93,17 +75,5 @@ public class RepoController {
     		@RequestParam("id") Long id) throws Exception {
         return ResponseEntity.ok(repoService.getSample(id));
     }
-    /*
-    x
-    @GetMapping(value = "/progress", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> streamCloneProgress() {
-        return repoService.getCloneProgressStream();
-    }
 
-    @PostMapping("/clone")
-    public ResponseEntity<String> cloneRepositories(@RequestBody List<String> repoUrls) {
-    	repoService.cloneRepositoriesAsync(repoUrls);
-        return ResponseEntity.accepted().body("Cloning started...");
-    }
-    */
 }
