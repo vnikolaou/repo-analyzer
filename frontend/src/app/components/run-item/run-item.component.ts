@@ -8,7 +8,6 @@ import { RepoService } from 'src/app/services/repo.service';
 import { catchError, of } from 'rxjs';
 import { ErrorService } from 'src/app/services/error.service';
 import { Subscription } from 'rxjs';
-import { HttpEventType } from '@angular/common/http';
 import { Repository } from 'src/app/model/repository';
 
 @Component({

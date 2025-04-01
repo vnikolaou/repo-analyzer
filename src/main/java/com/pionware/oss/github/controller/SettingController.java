@@ -24,14 +24,7 @@ public class SettingController {
     public ResponseEntity<Setting> getSettingByKey(@PathVariable String key) {
         return ResponseEntity.ok(settingService.getSettingByKey(key));
     }
-    
-    /*
-    @PostMapping
-    public Setting createSetting(@RequestBody Setting setting) {
-        return settingService.saveSetting(setting);
-    }
-*/
-    
+     
     @PutMapping("/{key}")
     public ResponseEntity<Setting> updateSetting(@PathVariable String key, @RequestBody Setting setting) {
     	return ResponseEntity.ok(settingService.saveSetting(setting));

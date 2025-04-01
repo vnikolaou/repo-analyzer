@@ -1,6 +1,6 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
-import { Observable, Subject } from 'rxjs'; 
+import { Observable } from 'rxjs'; 
 import { Repository } from '../model/repository';
 
 @Injectable({
@@ -9,10 +9,7 @@ import { Repository } from '../model/repository';
 export class RepoService {
   private apiUrl = '/api/repos';
   
-  private eventSource: EventSource | null = null;	
-  private eventSubject: Subject<any> = new Subject<any>();
-  
-  constructor(private http: HttpClient, private zone: NgZone) {}
+  constructor(private http: HttpClient) {}
 
   getSearchTotalResults(searchQuery: string): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/total-results`, {
@@ -50,28 +47,4 @@ export class RepoService {
     return this.http.get<Repository>(`${this.apiUrl}/${id}`);
   }
   
-  connect(query: string): Observable<any> {
-	  if (!this.eventSource) {
-	    this.eventSource = new EventSource(this.apiUrl + "/fetch-repos?q=" + query);
-	    this.eventSource.onmessage = (event) => {
-	  	this.zone.run(() => {
-	  	  this.eventSubject.next(JSON.parse(event.data));
-		  this.eventSubject.next(event.data);
-	  	});
-	    };
-	    this.eventSource.onerror = (error) => {
-	  	this.zone.run(() => {
-	  	  this.eventSubject.error(error);
-	  	});
-	    };
-	  }
-	  return this.eventSubject.asObservable();
-  }
-
-  disconnect(): void {
-    if (this.eventSource) {
-      this.eventSource.close();
-      this.eventSource = null;
-    }
-  }
 }

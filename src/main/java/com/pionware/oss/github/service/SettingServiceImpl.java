@@ -1,10 +1,10 @@
 package com.pionware.oss.github.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pionware.oss.github.entity.RunItem;
 import com.pionware.oss.github.entity.Setting;
 import com.pionware.oss.github.repository.SettingRepository;
 

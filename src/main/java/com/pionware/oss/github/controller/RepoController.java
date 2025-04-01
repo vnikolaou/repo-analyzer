@@ -1,12 +1,9 @@
 package com.pionware.oss.github.controller;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +17,6 @@ import com.pionware.oss.github.entity.RepoItem;
 import com.pionware.oss.github.model.Repo;
 import com.pionware.oss.github.service.GitHubService;
 import com.pionware.oss.github.service.RepoService;
-
-import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/api/repos")

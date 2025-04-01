@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RunService } from '../../services/run.service';
-import { SettingService } from '../../services/setting.service';
-import { RunItem } from '../../model/run-item';
 import { NgForm } from '@angular/forms';
 import { RepoService } from 'src/app/services/repo.service';
 import { catchError, of } from 'rxjs';
 import { ErrorService } from 'src/app/services/error.service';
 import { Subscription } from 'rxjs';
-import { HttpEventType } from '@angular/common/http';
 import { Repository } from 'src/app/model/repository';
 
 @Component({

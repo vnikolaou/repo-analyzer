@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,9 +24,6 @@ import com.pionware.oss.github.entity.RunItem;
 import com.pionware.oss.github.model.Repo;
 import com.pionware.oss.github.util.GitHubErrorException;
 import com.pionware.oss.github.util.ResponseHandler;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Sinks;
 
 @Service
 final class GitHubServiceImpl implements GitHubService {
@@ -72,22 +68,6 @@ final class GitHubServiceImpl implements GitHubService {
         this.repoService.saveRepositories(runItem, repos);
         
         return repos;
-    }
-    
-    public void cloneRepository(String cloneUrl, String cloneDirectoryPath) {
-    	
-    	/*
-        try {
-            Git.cloneRepository()
-                .setURI(cloneUrl)
-                .setTimeout(600)
-                .setDirectory(new File(cloneDirectoryPath))
-                .call();
-            logger.info("Repository cloned to {}", cloneDirectoryPath);
-        } catch (GitAPIException e) {
-            logger.error("Error cloning repository: {}", e.getMessage());
-        }
-        */
     }
     
 	private Integer parseTotalResultsResponse(String jsonResponse) throws IOException {
@@ -143,30 +123,7 @@ final class GitHubServiceImpl implements GitHubService {
   
     	return repos;
     }
-    
- 
-    
-    ////////
-
-    private final Sinks.Many<String> progressSink = Sinks.many().multicast().onBackpressureBuffer();
-
-    public Flux<String> getCloneProgressStream() {
-        return progressSink.asFlux();
-    }
-
-    @Async
-    public void cloneRepositoriesAsync(List<String> repoUrls) {
-        for (String repoUrl : repoUrls) {
-            try {
-            	cloneRepository(repoUrl, "");
-                progressSink.tryEmitNext("✅ Cloned: " + repoUrl);
-            } catch (Exception e) {
-                progressSink.tryEmitNext("❌ Failed: " + repoUrl);
-            }
-        }
-    }
-
-   ///
+  
     private <T> T executeApiCall(String query, Integer page, Integer resultsPerPage, ResponseHandler<T> handler) throws Exception {
         HttpURLConnection connection = null;
 
@@ -177,9 +134,8 @@ final class GitHubServiceImpl implements GitHubService {
             	encodedQuery+="&page=" + page + "&per_page=" + resultsPerPage;
             }
             URL url = new URL(REPO_API_URL + "?q=" + encodedQuery);
-            System.out.println("exec: " + (REPO_API_URL + "?q=" + encodedQuery));
+   
             connection = (HttpURLConnection) url.openConnection();
-            System.out.println("after exec");
             connection.setRequestMethod("GET");
             setRequestHeaders(connection, token);
 

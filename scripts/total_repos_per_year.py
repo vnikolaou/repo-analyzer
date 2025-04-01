@@ -1,12 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load the CSV file
-df = pd.read_csv('repository_csv.csv')
+df = pd.read_csv('repositories.csv')
 
 # Ensure 'chosen' is treated as boolean
 df['chosen'] = df['chosen'].astype(bool)
