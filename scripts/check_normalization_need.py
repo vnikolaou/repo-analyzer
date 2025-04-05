@@ -39,9 +39,9 @@ print("\nPercentile Analysis (1%, 25%, 50%, 75%, 99%):")
 print(percentiles)
 
 # Plot histograms to visualize distributions
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(12, 12))  # Adjust height for more rows
 for i, col in enumerate(num_cols, 1):
-    plt.subplot(3, 3, i)
+    plt.subplot(4, 2, i)  # 4 rows, 2 columns
     sns.histplot(df[col].dropna(), bins=50, kde=True)
     plt.title(col)
 plt.tight_layout()
