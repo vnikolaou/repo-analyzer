@@ -44,8 +44,9 @@ df_corr = df_transformed[correlation_fields].dropna()
 pearson_matrix = df_corr.corr(method='pearson')
 spearman_matrix = df_corr.corr(method='spearman')
 
-# Plot both heatmaps side by side
-fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+
+# Plot both heatmaps one per row
+fig, axes = plt.subplots(2, 1, figsize=(10, 14))  # 2 rows, 1 column
 
 # Pearson
 sns.heatmap(pearson_matrix, annot=True, cmap="coolwarm", fmt=".2f",
@@ -59,3 +60,5 @@ axes[1].set_title("Spearman Correlation: Branch Coverage vs Project Characterist
 
 plt.tight_layout()
 plt.show()
+
+
