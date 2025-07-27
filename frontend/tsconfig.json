@@ -13,12 +13,12 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2020",
-    "module": "ES2020",
-    "useDefineForClassFields": false,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": true,
     "lib": [
-      "ES2020",
-      "dom"
+      "ES2022",
+      "DOM"
     ]
   },
   "angularCompilerOptions": {
