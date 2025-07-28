@@ -14,22 +14,17 @@ The goal is to simplify and automate the process of preparing open-source reposi
 
 ## 1. Installation
 
-The project is composed of a **Java-based backend** and an **Angular-based frontend**, maintained as separate modules. Follow the setup instructions for each part below.
+The project consists of a **Java-based backend** and an **Angular-based frontend**, both co-existing within the same repository. Follow the setup instructions for each part below.
 
 ### 1.1. Frontend (Angular)
 
-#### 1.1.1. System Requirements
-
-The following versions are used in this project to ensure compatibility and stability. It’s recommended to match these versions as closely as possible to avoid unexpected issues during development or build:
+The following versions of external tools are used in this project to ensure compatibility and stability. It’s recommended to match these versions as closely as possible to avoid unexpected issues during development or build:
 
 - **Node.js** v22.12.0 or higher  
-  _(Recommended: use [nvm](https://github.com/nvm-sh/nvm) to manage Node versions)_
-
 - **npm** v10.9.0 or higher  
-  _(npm is bundled with Node.js — check with `npm --version`)_
 
-#### 1.1.2. Key Frontend Dependencies
-The following are the main libraries and tools used in the frontend stack (as defined in package.json):
+#### 1.1.1. Key Frontend Dependencies
+The following are the main libraries and tools used in the frontend stack (as defined in `package.json`):
 
 - **Angular** v18.0.0 (`@angular/*`)
 - **Angular CLI** v18.0.0
@@ -42,16 +37,53 @@ The following are the main libraries and tools used in the frontend stack (as de
 - **@angular-eslint** suite v20.1.1
 - **@typescript-eslint** suite v7.11.0
 
-_ Note: Make sure to keep these versions consistent to avoid compatibility issues._
+**Note:** Make sure to keep these versions consistent to avoid compatibility issues
 
-#### 1.1.3. Install and Run
 
-From the project root, navigate to the *frontend* directory and install the required packages:
+#### 1.1.2. Install & Run in Development Mode
+
+From the project root, navigate to the `frontend` directory and install the required packages:
 
 ```
 cd frontend
 npm install
 ```
+
+To start the development server with live reload, run the following from the `frontend` directory:
+
+```
+npm start
+```
+
+The app will be available at `http://localhost:4200`.
+Any changes to source files will trigger an automatic reload.
+
+**Note:** The frontend application depends on the backend service being up and running.
+
+The Angular development server is configured to proxy API requests (i.e. requests to `/api/**`) to the backend which is expected to run on `8080` port.
+
+Thus, if the backend is running on a different port or host, make sure to update the `target` field in `proxy.conf.json` accordingly.
+
+
+
+#### 1.1.3. Build for Production
+
+To build the frontend application for production, use the provided `build-and-copy.sh` script located in the project root:
+
+```
+./build-and-copy.sh
+```
+
+This script performs the full build pipeline:
+
+- Installs frontend dependencies using `npm install`
+- Runs the Angular production build (`npm run build`), outputting to the `/frontend/dist` directory
+- Performs necessary checks and folder validations
+- Copies the built artifacts into the `src/main/resources/static` directory of the Java backend
+
+This setup allows the Angular frontend to be bundled directly into the Spring Boot executable JAR. When the backend is run, the frontend is served seamlessly from the same server, making it accessible as part of the overall web application (e.g., via `http://localhost:8080`).
+
+
 
 ### 1.2. Backend (Java/Spring boot)
 
