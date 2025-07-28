@@ -32,4 +32,4 @@ target
 frontend/.angular
 .DS_Store
 .mvn/
-src/main/resources/static
+./src/main/resources/static
