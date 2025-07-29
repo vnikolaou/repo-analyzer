@@ -12,6 +12,16 @@ The goal is to simplify and automate the process of preparing open-source reposi
 
 ---
 
+## 1. System Overview
+
+The following C4 Level 1 diagram illustrates the system context of Repo Analyzer, showing its key user and the external systems it interacts with.
+
+
+
+<img src="docs/diagrams/c4-system-context-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
+
+---
+
 ## 1. Installation
 
 The project consists of a **Java-based backend** and an **Angular-based frontend**, both co-existing within the same repository. Follow the setup instructions for each part below.
