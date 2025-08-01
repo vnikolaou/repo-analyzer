@@ -14,11 +14,26 @@ The goal is to simplify and automate the process of preparing open-source reposi
 
 ## 1. System Overview
 
-The following C4 Level 1 diagram illustrates the system context of Repo Analyzer, showing its key user and the external systems it interacts with.
-
+The following C4 Level 1 diagram illustrates the system context of Repo Analyzer, highlighting its key users and external dependencies.
 
 
 <img src="docs/diagrams/c4-system-context-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
+
+This diagram shows the high-level context in which the Repo Analyzer system operates.
+
+- Researcher: The primary user of the system. Researchers are interested in identifying, sampling, and analyzing GitHub repositories to build curated datasets for empirical software engineering studies.
+
+- Repo Analyzer: This is the core software system, offering tools to:
+
+    - Search and filter repositories using the GitHub Search API,
+    
+    - Generate statistically sound samples,
+    
+    - Enrich metadata (e.g., with code coverage, commit history, contributor data).
+
+- GitHub Open Source Ecosystem: An external system that the application integrates with. GitHub provides the raw data (repositories and their metadata) via its public APIs.
+
+The Repo Analyzer acts as a bridge between researchers and GitHub, simplifying and automating workflows involved in preparing open-source datasets for research purposes.
 
 ---
 
