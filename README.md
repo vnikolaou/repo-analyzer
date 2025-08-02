@@ -14,26 +14,23 @@ The goal is to simplify and automate the process of preparing open-source reposi
 
 ## 1. System Overview
 
-The following C4 Level 1 diagram illustrates the system context of Repo Analyzer, highlighting its key users and external dependencies.
-
+The following C4 Level 1 (System Context) diagram illustrates the high-level environment in which the RepoAnalyzer system operates, including its main user and external dependencies.
 
 <img src="docs/diagrams/c4-system-context-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
 
-This diagram shows the high-level context in which the Repo Analyzer system operates.
+Elements in context:
 
-- Researcher: The primary user of the system. Researchers are interested in identifying, sampling, and analyzing GitHub repositories to build curated datasets for empirical software engineering studies.
+- Researcher: The primary user of the system. Researchers use RepoAnalyzer to identify, sample, and analyze GitHub repositories in order to build curated datasets for empirical software engineering studies.
 
-- Repo Analyzer: This is the core software system, offering tools to:
+- RepoAnalyzer: The core software system, which provides capabilities to:
 
-    - Search and filter repositories using the GitHub Search API,
-    
-    - Generate statistically sound samples,
-    
-    - Enrich metadata (e.g., with code coverage, commit history, contributor data).
+	- Search and filter repositories using the GitHub Search API
+	- Generate statistically sound samples
+	- Enrich metadata (e.g., code coverage, commit history, contributor data)
 
-- GitHub Open Source Ecosystem: An external system that the application integrates with. GitHub provides the raw data (repositories and their metadata) via its public APIs.
+- GitHub Open Source Ecosystem: An external system that exposes repository data and metadata via public APIs. RepoAnalyzer integrates with GitHub to retrieve and process this data.
 
-The Repo Analyzer acts as a bridge between researchers and GitHub, simplifying and automating workflows involved in preparing open-source datasets for research purposes.
+Together, these elements define a workflow where RepoAnalyzer acts as a bridge between researchers and GitHub, automating and simplifying dataset creation for open-source software research.
 
 ---
 
