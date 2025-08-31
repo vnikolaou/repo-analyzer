@@ -6,7 +6,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-08-02T21:13:31Z",
+  "lastModifiedDate" : "2025-08-21T20:30:21Z",
   "model" : {
     "people" : [ {
       "description" : "Explores and curates open-source repositories to build datasets for empirical research",
@@ -180,15 +180,15 @@
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 200,
+        "x" : 199,
         "y" : 165
       }, {
         "id" : "2",
-        "x" : 900,
+        "x" : 899,
         "y" : 215
       }, {
         "id" : "5",
-        "x" : 1650,
+        "x" : 1649,
         "y" : 215
       } ],
       "enterpriseBoundaryVisible" : true,

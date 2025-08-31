@@ -109,6 +109,31 @@ This setup allows the Angular frontend to be bundled directly into the Spring Bo
 
 ### 1.2. Backend (Java/Spring boot)
 
+
+-- Connect as the default superuser (postgres)
+-- You can run: psql -U postgres
+
+-- 1. Drop database and user if they already exist (safe for dev)
+DROP DATABASE IF EXISTS repodb;
+DROP ROLE IF EXISTS admin;
+
+-- 2. Create the admin user
+CREATE USER admin WITH ENCRYPTED PASSWORD 'admin';
+
+-- 3. Create the database owned by admin
+CREATE DATABASE repodb OWNER admin;
+
+-- 4. Grant privileges on the public schema
+\c repodb  -- connect to the new database
+
+-- Grant usage and creation privileges on the public schema
+GRANT ALL PRIVILEGES ON SCHEMA public TO admin;
+GRANT USAGE, CREATE ON SCHEMA public TO admin;
+
+-- Optional: Verify user and privileges
+-- List roles: \du
+-- List schemas and privileges: \dn+
+
 ---
 
 ## 2. Architecture

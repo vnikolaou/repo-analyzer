@@ -6,16 +6,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.2</version>
+		<version>3.4.7</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.pionware.oss</groupId>
+	<groupId>net.pionware.oss</groupId>
 	<artifactId>repo-analyzer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>repo-analyzer</name>
 	<description>Code coverage analyzer tool for repositories on GitHub</description>
 	<packaging>jar</packaging>
-	
+
 	<url>https://github.com/pionware/repo-analyzer</url>
 
 	<licenses>
@@ -25,29 +25,30 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
+
 	<developers>
-	  <developer>
-	    <id>vnikolaou</id>
-	    <name>Evangelos Nikolaou</name>
-	    <email>vnikolaou12@gmail.com</email>
-	    <url>https://github.com/vnikolaou</url>
-	    <organization>Pionware LTD</organization>
-	    <organizationUrl>https://pionware.net</organizationUrl>
-	    <roles>
-	      <role>manager</role>
-		  <role>architect</role>
-		  <role>developer</role>
-		  <role>tester</role>
-	    </roles>
-	    <timezone>+2</timezone>
-	  </developer>
+		<developer>
+			<id>vnikolaou</id>
+			<name>Evangelos Nikolaou</name>
+			<email>vnikolaou12@gmail.com</email>
+			<url>https://github.com/vnikolaou</url>
+			<organization>Pionware LTD</organization>
+			<organizationUrl>https://pionware.net</organizationUrl>
+			<roles>
+				<role>manager</role>
+				<role>architect</role>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
 	</developers>
 
 	<properties>
 		<java.version>17</java.version>
+		<author>vnik</author>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,15 +58,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
+		<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -79,8 +90,8 @@
 
 
 		<dependency>
-		    <groupId>com.fasterxml.jackson.datatype</groupId>
-		    <artifactId>jackson-datatype-jsr310</artifactId>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
 		<dependency>
@@ -93,8 +104,6 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		
 	</dependencies>
 
 	<build>
@@ -103,8 +112,81 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<!-- Use standard Maven placeholders ${...} along with
+					standard @ delimiter -->
+					<useDefaultDelimiters>true</useDefaultDelimiters>
 
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<!--
+					<execution>
+						<id>default-check</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>COMPLEXITY</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.60</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+					-->
+				</executions>
+			</plugin>
 		</plugins>
+
+		<resources>
+			<!-- Application properties with filtering -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>application.properties</include>
+				</includes>
+			</resource>
+
+			<!-- All other resources (migration scripts) -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>application.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
 	</build>
 
 </project>
