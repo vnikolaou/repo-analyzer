@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+
+<suppressions>
+  <!-- Only skip Controller rule for non-controller files -->
+  <suppress id="controllerRule" files="^(?!.*net/pionware/oss/repo/controller/).*"/>
+
+  <!-- Only skip Entity rule for non-entity files -->
+  <suppress id="entityRule" files="^(?!.*net/pionware/oss/repo/model/entity/).*"/>
+</suppressions>

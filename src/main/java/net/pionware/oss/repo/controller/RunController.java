@@ -17,14 +17,32 @@ import org.springframework.web.bind.annotation.RestController;
 import net.pionware.oss.repo.model.entity.RunItemEntity;
 import net.pionware.oss.repo.service.RunService;
 
+/**
+ * REST controller for managing run items.
+ * 
+ * <p>
+ * Provides endpoints for listing, finding, creating, updating, and deleting run items.
+ * </p>
+ * 
+ * @author Vangelis Nikolaou
+ * @since 1.0.0
+ * @see net.pionware.oss.repo.service.RunService
+ */
 @RestController
 @RequestMapping("/api/run-items")
 public class RunController {
-
+	
     @Autowired
     private RunService runService;
 
-    
+    /**
+     * Returns a list of {@link RunItemEntity} objects stored in the database.
+     * <p>
+     * If no entries are found, this method returns {@code null}.
+     * </p>
+     * 
+     * @return the list of {@link RunItemEntity} objects, or {@code null} if no entries are found
+     */    
     @GetMapping
     public ResponseEntity<List<RunItemEntity>> getAllRunItems() {
         return ResponseEntity.ok(runService.getAllRunItems());

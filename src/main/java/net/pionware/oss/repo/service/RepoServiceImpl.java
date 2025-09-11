@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.transaction.Transactional;
 import net.pionware.oss.repo.model.entity.RepoItemEntity;
 import net.pionware.oss.repo.model.entity.RunItemEntity;
@@ -25,10 +26,11 @@ import net.pionware.oss.repo.repository.RunItemRepository;
 public class RepoServiceImpl implements RepoService {
 	private static final Logger logger = LogManager.getLogger(RepoServiceImpl.class);
 
-	private SettingService settingService;
-    private RepoItemRepository repoItemRepository;
-    private RunItemRepository runItemRepository;
+	final private SettingService settingService;
+    final private RepoItemRepository repoItemRepository;
+    final private RunItemRepository runItemRepository;
     
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Spring-managed bean injection; safe to expose")
     public RepoServiceImpl(SettingService settingService, RepoItemRepository repoItemRepository, RunItemRepository runItemRepository) { 
     	this.settingService = settingService;
     	this.repoItemRepository = repoItemRepository;

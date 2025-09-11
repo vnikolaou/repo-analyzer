@@ -1,0 +1,5 @@
+<FindBugsFilter>
+    <Match>
+        <Package name="net.pionware.oss.repo.service"/>
+    </Match>
+</FindBugsFilter>

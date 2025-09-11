@@ -1,0 +1,8 @@
+<FindBugsFilter>
+    <Match>
+        <Package name="net.pionware.oss.repo.service"/>
+    </Match>
+        <Match>
+        <Package name="net.pionware.oss.repo.controller"/>
+    </Match>
+</FindBugsFilter>

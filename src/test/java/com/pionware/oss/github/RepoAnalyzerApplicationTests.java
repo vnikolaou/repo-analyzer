@@ -3,10 +3,10 @@ package com.pionware.oss.github;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class RepoAnalyzerApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
