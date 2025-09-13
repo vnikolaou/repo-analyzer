@@ -1,47 +1,39 @@
-name: Maven Quality & Site
+name: Build and Quality Reports
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  build-and-publish-site:
+  build-and-site:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: 17
-        distribution: temurin
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: maven
 
-    - name: Cache Maven dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      - name: Build project
+        run: mvn -B clean install
 
-    - name: Build, run quality reports, generate site
-      run: mvn clean verify site 
+      - name: Run quality plugins and generate site
+        run: mvn -B verify site
 
-    - name: Upload Maven site artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: maven-site
-        path: target/site
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: maven-site
+          path: target/site
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v6
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: target/site
-        # Optional: choose branch, default is 'gh-pages'
-        # publish_branch: gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/site
 
