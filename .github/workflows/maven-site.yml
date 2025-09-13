@@ -1,0 +1,47 @@
+name: Maven Quality & Site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-publish-site:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: temurin
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Build, run quality reports, generate site
+      run: mvn clean verify site 
+
+    - name: Upload Maven site artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: maven-site
+        path: target/site
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v6
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: target/site
+        # Optional: choose branch, default is 'gh-pages'
+        # publish_branch: gh-pages
+
