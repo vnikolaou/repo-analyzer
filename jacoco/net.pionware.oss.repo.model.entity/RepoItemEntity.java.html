@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepoItemEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">repo-analyzer</a> &gt; <a href="index.source.html" class="el_package">net.pionware.oss.repo.model.entity</a> &gt; <span class="el_source">RepoItemEntity.java</span></div><h1>RepoItemEntity.java</h1><pre class="source lang-java linenums">package net.pionware.oss.repo.model.entity;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = &quot;repository&quot;, schema = &quot;public&quot;)
+<span class="nc" id="L18">public class RepoItemEntity {</span>
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;repository_id_seq&quot;)
+    @SequenceGenerator(name = &quot;repository_id_seq&quot;, sequenceName = &quot;repository_id_seq&quot;, allocationSize = 1)
+    private Long id;
+
+    @Column(name = &quot;repo_id&quot;)
+    private String repoId;
+    
+    @Column(name = &quot;private&quot;)
+    private Boolean isPrivate;
+
+    @Column(name = &quot;full_name&quot;)
+    private String fullName;
+
+    @Column(name = &quot;stars&quot;)
+    private Integer stars;
+
+    @Column(name = &quot;ssh_url&quot;)
+    private String sshUrl;
+
+    @Column(name = &quot;clone_url&quot;)
+    private String cloneUrl;
+
+    @Column(name = &quot;size&quot;)
+    private Integer size;
+
+    @Column(name = &quot;watchers&quot;)
+    private Integer watchers;
+
+    @Column(name = &quot;has_issues&quot;)
+    private Boolean hasIssues;
+
+    @Column(name = &quot;forks&quot;)
+    private Integer forks;
+
+    @Column(name = &quot;open_issues&quot;)
+    private Integer openIssues;
+
+    @Column(name = &quot;license&quot;)
+    private String license;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;run_item_id&quot;, nullable = false)
+    private RunItemEntity runItem;
+    
+    @Column
+    private boolean cloned;
+
+    @Column
+    private boolean chosen;
+
+    @Column
+    private Integer commits;
+
+    @Column
+    private Integer contributors;
+
+    @Column(columnDefinition = &quot;TIMESTAMPTZ&quot;)
+    private Instant createdAt;
+
+    @Column(columnDefinition = &quot;TIMESTAMPTZ&quot;)
+    private Instant updatedAt;
+
+    @Column(columnDefinition = &quot;TIMESTAMPTZ&quot;)
+    private Instant pushedAt;
+
+    @Column
+    private boolean analyzed;
+
+    @Column(precision = 5, scale = 2)
+    private BigDecimal coverage;
+    
+    @Column
+    private boolean failed;
+    
+    @Column(name = &quot;comments&quot;)
+    private String comments;
+    
+    @Column(name = &quot;commite_id&quot;)
+    private String commitId;
+    
+    @Column(name = &quot;complexity&quot;)
+    private Integer complexity;
+    
+    // Getters and Setters
+    public Long getId() {
+<span class="nc" id="L106">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L110">        this.id = id;</span>
+<span class="nc" id="L111">    }</span>
+
+    public String getRepoId() {
+<span class="nc" id="L114">		return repoId;</span>
+	}
+
+	public void setRepoId(String repoId) {
+<span class="nc" id="L118">		this.repoId = repoId;</span>
+<span class="nc" id="L119">	}</span>
+
+	public Boolean getIsPrivate() {
+<span class="nc" id="L122">        return isPrivate;</span>
+    }
+
+    public void setIsPrivate(Boolean isPrivate) {
+<span class="nc" id="L126">        this.isPrivate = isPrivate;</span>
+<span class="nc" id="L127">    }</span>
+
+    public String getFullName() {
+<span class="nc" id="L130">        return fullName;</span>
+    }
+
+    public void setFullName(String fullName) {
+<span class="nc" id="L134">        this.fullName = fullName;</span>
+<span class="nc" id="L135">    }</span>
+
+    public Integer getStars() {
+<span class="nc" id="L138">        return stars;</span>
+    }
+
+    public void setStars(Integer stars) {
+<span class="nc" id="L142">        this.stars = stars;</span>
+<span class="nc" id="L143">    }</span>
+
+    public String getSshUrl() {
+<span class="nc" id="L146">        return sshUrl;</span>
+    }
+
+    public void setSshUrl(String sshUrl) {
+<span class="nc" id="L150">        this.sshUrl = sshUrl;</span>
+<span class="nc" id="L151">    }</span>
+
+    public String getCloneUrl() {
+<span class="nc" id="L154">        return cloneUrl;</span>
+    }
+
+    public void setCloneUrl(String cloneUrl) {
+<span class="nc" id="L158">        this.cloneUrl = cloneUrl;</span>
+<span class="nc" id="L159">    }</span>
+
+    public Integer getSize() {
+<span class="nc" id="L162">        return size;</span>
+    }
+
+    public void setSize(Integer size) {
+<span class="nc" id="L166">        this.size = size;</span>
+<span class="nc" id="L167">    }</span>
+
+    public Integer getWatchers() {
+<span class="nc" id="L170">        return watchers;</span>
+    }
+
+    public void setWatchers(Integer watchers) {
+<span class="nc" id="L174">        this.watchers = watchers;</span>
+<span class="nc" id="L175">    }</span>
+
+    public Boolean getHasIssues() {
+<span class="nc" id="L178">        return hasIssues;</span>
+    }
+
+    public void setHasIssues(Boolean hasIssues) {
+<span class="nc" id="L182">        this.hasIssues = hasIssues;</span>
+<span class="nc" id="L183">    }</span>
+
+    public Integer getForks() {
+<span class="nc" id="L186">        return forks;</span>
+    }
+
+    public void setForks(Integer forks) {
+<span class="nc" id="L190">        this.forks = forks;</span>
+<span class="nc" id="L191">    }</span>
+
+    public Integer getOpenIssues() {
+<span class="nc" id="L194">        return openIssues;</span>
+    }
+
+    public void setOpenIssues(Integer openIssues) {
+<span class="nc" id="L198">        this.openIssues = openIssues;</span>
+<span class="nc" id="L199">    }</span>
+
+    public String getLicense() {
+<span class="nc" id="L202">        return license;</span>
+    }
+
+    public void setLicense(String license) {
+<span class="nc" id="L206">        this.license = license;</span>
+<span class="nc" id="L207">    }</span>
+    
+    public RunItemEntity getRunItem() {
+<span class="nc" id="L210">        return runItem;</span>
+    }
+
+    public void setRunItem(RunItemEntity runItem) {
+<span class="nc" id="L214">        this.runItem = runItem;</span>
+<span class="nc" id="L215">    }</span>
+
+    
+	public boolean isCloned() {
+<span class="nc" id="L219">		return cloned;</span>
+	}
+
+	public void setCloned(boolean cloned) {
+<span class="nc" id="L223">		this.cloned = cloned;</span>
+<span class="nc" id="L224">	}</span>
+
+	public boolean isChosen() {
+<span class="nc" id="L227">		return chosen;</span>
+	}
+
+	public void setChosen(boolean chosen) {
+<span class="nc" id="L231">		this.chosen = chosen;</span>
+<span class="nc" id="L232">	}</span>
+
+	public Integer getCommits() {
+<span class="nc" id="L235">		return commits;</span>
+	}
+
+	public void setCommits(Integer commits) {
+<span class="nc" id="L239">		this.commits = commits;</span>
+<span class="nc" id="L240">	}</span>
+
+	public Integer getContributors() {
+<span class="nc" id="L243">		return contributors;</span>
+	}
+
+	public void setContributors(Integer contributors) {
+<span class="nc" id="L247">		this.contributors = contributors;</span>
+<span class="nc" id="L248">	}</span>
+
+	public Instant getCreatedAt() {
+<span class="nc" id="L251">		return createdAt;</span>
+	}
+
+	public void setCreatedAt(Instant createdAt) {
+<span class="nc" id="L255">		this.createdAt = createdAt;</span>
+<span class="nc" id="L256">	}</span>
+
+	public Instant getUpdatedAt() {
+<span class="nc" id="L259">		return updatedAt;</span>
+	}
+
+	public void setUpdatedAt(Instant updatedAt) {
+<span class="nc" id="L263">		this.updatedAt = updatedAt;</span>
+<span class="nc" id="L264">	}</span>
+
+	public Instant getPushedAt() {
+<span class="nc" id="L267">		return pushedAt;</span>
+	}
+
+	public void setPushedAt(Instant pushedAt) {
+<span class="nc" id="L271">		this.pushedAt = pushedAt;</span>
+<span class="nc" id="L272">	}</span>
+
+	public Boolean getAnalyzed() {
+<span class="nc" id="L275">		return analyzed;</span>
+	}
+
+	public void setAnalyzed(Boolean analyzed) {
+<span class="nc" id="L279">		this.analyzed = analyzed;</span>
+<span class="nc" id="L280">	}</span>
+
+	public BigDecimal getCoverage() {
+<span class="nc" id="L283">		return coverage;</span>
+	}
+
+	public void setCoverage(BigDecimal coverage) {
+<span class="nc" id="L287">		this.coverage = coverage;</span>
+<span class="nc" id="L288">	}</span>
+
+	public Boolean getFailed() {
+<span class="nc" id="L291">		return failed;</span>
+	}
+
+	public void setFailed(Boolean failed) {
+<span class="nc" id="L295">		this.failed = failed;</span>
+<span class="nc" id="L296">	}</span>
+	
+	public String getComments() {
+<span class="nc" id="L299">		return comments;</span>
+	}
+
+	public void setComments(String comments) {
+<span class="nc" id="L303">		this.comments = comments;</span>
+<span class="nc" id="L304">	}</span>
+
+	public String getCommitId() {
+<span class="nc" id="L307">		return commitId;</span>
+	}
+	
+	public void setCommitId(String commitId) {
+<span class="nc" id="L311">		this.commitId = commitId;</span>
+<span class="nc" id="L312">	}</span>
+
+	public Integer getComplexity() {
+<span class="nc" id="L315">		return complexity;</span>
+	}
+
+	public void setComplexity(Integer complexity) {
+<span class="nc" id="L319">		this.complexity = complexity;</span>
+<span class="nc" id="L320">	}</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L324">		return &quot;RepoItem [id=&quot; + id + &quot;, repoId=&quot; + repoId + &quot;, isPrivate=&quot; + isPrivate + &quot;, fullName=&quot; + fullName</span>
+				+ &quot;, stars=&quot; + stars + &quot;, sshUrl=&quot; + sshUrl + &quot;, cloneUrl=&quot; + cloneUrl + &quot;, size=&quot; + size
+				+ &quot;, watchers=&quot; + watchers + &quot;, hasIssues=&quot; + hasIssues + &quot;, forks=&quot; + forks + &quot;, openIssues=&quot;
+				+ openIssues + &quot;, license=&quot; + license + &quot;, runItem=&quot; + runItem + &quot;, cloned=&quot; + cloned + &quot;, chosen=&quot;
+				+ chosen + &quot;, commits=&quot; + commits + &quot;, contributors=&quot; + contributors + &quot;, createdAt=&quot; + createdAt
+				+ &quot;, updatedAt=&quot; + updatedAt + &quot;, pushedAt=&quot; + pushedAt + &quot;, analyzed=&quot; + analyzed + &quot;, coverage=&quot;
+				+ coverage + &quot;, failed=&quot; + failed + &quot;, comments=&quot; + comments + &quot;, commitId=&quot; + commitId
+				+ &quot;, complexity=&quot; + complexity + &quot;]&quot;;
+	}
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

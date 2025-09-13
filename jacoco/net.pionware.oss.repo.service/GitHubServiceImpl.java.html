@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GitHubServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">repo-analyzer</a> &gt; <a href="index.source.html" class="el_package">net.pionware.oss.repo.service</a> &gt; <span class="el_source">GitHubServiceImpl.java</span></div><h1>GitHubServiceImpl.java</h1><pre class="source lang-java linenums">package net.pionware.oss.repo.service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import net.pionware.oss.repo.exception.GitHubErrorException;
+import net.pionware.oss.repo.model.entity.RunItemEntity;
+import net.pionware.oss.repo.model.response.RepoResponse;
+import net.pionware.oss.repo.service.internal.ResponseHandler;
+
+@Service
+final class GitHubServiceImpl implements GitHubService {
+<span class="nc" id="L31">	private static final Logger logger = LogManager.getLogger(GitHubServiceImpl.class);</span>
+
+	private static final String REPO_API_URL = &quot;https://api.github.com/search/repositories&quot;;
+	
+    private SettingService settingService;
+    private RepoService repoService;
+    private RunService runService;
+    
+<span class="nc" id="L39">    public GitHubServiceImpl(SettingService settingService, RepoService repoService, RunService runService) { </span>
+<span class="nc" id="L40">    	this.settingService = settingService;</span>
+<span class="nc" id="L41">    	this.repoService = repoService;</span>
+<span class="nc" id="L42">    	this.runService = runService;</span>
+<span class="nc" id="L43">    }</span>
+
+    public Optional&lt;Integer&gt; getSearchTotalResults(String query) throws Exception {
+<span class="nc" id="L46">        return Optional.ofNullable(executeApiCall(query, null, null, this::parseTotalResultsResponse));</span>
+    }
+    
+    public List&lt;RepoResponse&gt; fetchRepos(Long id, String query) throws Exception {
+<span class="nc" id="L50">        int page = 1;</span>
+<span class="nc" id="L51">        int resultsPerPage = 30; // GitHub API default per page</span>
+
+<span class="nc" id="L53">        List&lt;RepoResponse&gt; repos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L54">        List&lt;RepoResponse&gt; results = null;</span>
+        do {
+<span class="nc" id="L56">            String paginatedQuery = query; // + &quot;&amp;page=&quot; + page + &quot;&amp;per_page=&quot; + resultsPerPage;</span>
+<span class="nc" id="L57">            results = executeApiCall(paginatedQuery, page, resultsPerPage, this::parseFetchRepositoriesResponse);</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if(results != null) {</span>
+<span class="nc" id="L60">            	repos.addAll(results);</span>
+            }
+     
+<span class="nc" id="L63">            page++;    </span>
+      
+<span class="nc bnc" id="L65" title="All 4 branches missed.">        } while (!(results == null || results.isEmpty())); </span>
+        
+<span class="nc" id="L67">        RunItemEntity runItem = runService.getRunItemById(id);</span>
+    
+<span class="nc" id="L69">        this.repoService.saveRepositories(runItem, repos);</span>
+        
+<span class="nc" id="L71">        return repos;</span>
+    }
+    
+	private Integer parseTotalResultsResponse(String jsonResponse) throws IOException {
+<span class="nc" id="L75">		ObjectMapper objectMapper = new ObjectMapper();</span>
+
+<span class="nc" id="L77">		JsonNode root = objectMapper.readTree(jsonResponse);</span>
+<span class="nc" id="L78">		JsonNode totalNode = root.path(&quot;total_count&quot;);</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		if(totalNode.canConvertToInt()) {</span>
+<span class="nc" id="L81">			return totalNode.asInt();</span>
+		}    
+		
+<span class="nc" id="L84">		return null;</span>
+    }
+	
+    private List&lt;RepoResponse&gt; parseFetchRepositoriesResponse(String jsonResponse) throws IOException{
+<span class="nc" id="L88">    	ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="nc" id="L89">    	objectMapper.registerModule(new JavaTimeModule());</span>
+    	
+<span class="nc" id="L91">    	JsonNode root = objectMapper.readTree(jsonResponse);</span>
+<span class="nc" id="L92">    	JsonNode items = root.path(&quot;items&quot;);</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    	List&lt;RepoResponse&gt; repos = items.isEmpty() ? null : new ArrayList&lt;&gt;();</span>
+   
+    	// construct the list of Repository objects and print the list in dev mode
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    	for (JsonNode item : items) {</span>
+<span class="nc" id="L98">    		String repoId = item.path(&quot;id&quot;).asText();</span>
+<span class="nc" id="L99">    		boolean isPrivate = item.path(&quot;private&quot;).asBoolean();</span>
+<span class="nc" id="L100">    		String fullName = item.path(&quot;full_name&quot;).asText();</span>
+<span class="nc" id="L101">    		Integer stars = item.path(&quot;stargazers_count&quot;).asInt();</span>
+<span class="nc" id="L102">    		String sshUrl = item.path(&quot;ssh_url&quot;).asText();</span>
+<span class="nc" id="L103">    		String cloneUrl = item.path(&quot;clone_url&quot;).asText();</span>
+<span class="nc" id="L104">    		Integer size = item.path(&quot;size&quot;).asInt();</span>
+<span class="nc" id="L105">    		Integer watchers = item.path(&quot;watchers_count&quot;).asInt();</span>
+<span class="nc" id="L106">    		boolean hasIssues = item.path(&quot;has_issues&quot;).asBoolean();</span>
+<span class="nc" id="L107">    		Integer forks = item.path(&quot;forks_count&quot;).asInt();</span>
+<span class="nc" id="L108">    		Integer openIssues = item.path(&quot;open_issues_count&quot;).asInt();</span>
+<span class="nc" id="L109">    		String license = item.path(&quot;license&quot;).path(&quot;key&quot;).asText();</span>
+<span class="nc" id="L110">    		Instant created_at = Instant.parse(item.path(&quot;created_at&quot;).asText());</span>
+<span class="nc" id="L111">    		Instant updated_at =  Instant.parse(item.path(&quot;updated_at&quot;).asText());</span>
+<span class="nc" id="L112">    		Instant pushed_at =  Instant.parse(item.path(&quot;pushed_at&quot;).asText());</span>
+    		
+<span class="nc" id="L114">    		RepoResponse repo = new RepoResponse(null, repoId, isPrivate, fullName, stars, </span>
+    				sshUrl, cloneUrl, size, watchers, hasIssues, forks, openIssues, license,
+<span class="nc" id="L116">    				false, false, null, null, created_at, updated_at, pushed_at, false, null, false, null, null, null);</span>
+
+<span class="nc" id="L118">    		repos.add(repo);</span>
+<span class="nc" id="L119">    	}</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">    	if(repos != null) {</span>
+<span class="nc" id="L122">    		logger.debug(&quot;Received response:\n {}&quot;, objectMapper.writeValueAsString(repos));</span>
+    	}
+  
+<span class="nc" id="L125">    	return repos;</span>
+    }
+  
+    private &lt;T&gt; T executeApiCall(String query, Integer page, Integer resultsPerPage, ResponseHandler&lt;T&gt; handler) throws Exception {
+<span class="nc" id="L129">        HttpURLConnection connection = null;</span>
+
+        try {
+<span class="nc" id="L132">            String token = settingService.getSettingByKey(&quot;API_TOKEN&quot;).getValue();</span>
+<span class="nc" id="L133">            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">            if(page != null &amp;&amp; resultsPerPage != null) {</span>
+<span class="nc" id="L135">            	encodedQuery+=&quot;&amp;page=&quot; + page + &quot;&amp;per_page=&quot; + resultsPerPage;</span>
+            }
+<span class="nc" id="L137">            URL url = new URL(REPO_API_URL + &quot;?q=&quot; + encodedQuery);</span>
+   
+<span class="nc" id="L139">            connection = (HttpURLConnection) url.openConnection();</span>
+<span class="nc" id="L140">            connection.setRequestMethod(&quot;GET&quot;);</span>
+<span class="nc" id="L141">            setRequestHeaders(connection, token);</span>
+
+<span class="nc" id="L143">            int responseCode = connection.getResponseCode();</span>
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (responseCode == 200) {</span>
+<span class="nc" id="L146">                String response = parseResponseStream(connection);</span>
+<span class="nc" id="L147">                return handler.handle(response);</span>
+            } else {
+<span class="nc" id="L149">                String errorResponse = parseErrorStream(connection);</span>
+<span class="nc" id="L150">                throw new GitHubErrorException(errorResponse);</span>
+            }
+        } finally {
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            if (connection != null) {</span>
+<span class="nc" id="L154">                connection.disconnect();</span>
+            }
+        }
+    }
+    
+    private String parseResponseStream(HttpURLConnection connection) throws IOException {
+<span class="nc" id="L160">        try (InputStream inputStream = connection.getInputStream()) {</span>
+<span class="nc" id="L161">            return readStream(inputStream);</span>
+        }
+    }
+
+    private String parseErrorStream(HttpURLConnection connection) throws IOException {
+<span class="nc" id="L166">        try (InputStream errorStream = connection.getErrorStream()) {</span>
+<span class="nc" id="L167">            return readStream(errorStream);</span>
+        }
+    }
+    
+    private String readStream(InputStream inputStream) throws IOException {
+<span class="nc" id="L172">        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {</span>
+<span class="nc" id="L173">            StringBuilder response = new StringBuilder();</span>
+            String line;
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L176">                response.append(line);</span>
+            }
+<span class="nc" id="L178">            return response.toString();</span>
+        }
+    }
+    
+    private void setRequestHeaders(HttpURLConnection connection, String token) {
+<span class="nc" id="L183">        connection.setRequestProperty(&quot;Authorization&quot;, &quot;Bearer &quot; + token);</span>
+<span class="nc" id="L184">        connection.setRequestProperty(&quot;X-GitHub-Api-Version&quot;, &quot;2022-11-28&quot;);</span>
+<span class="nc" id="L185">        connection.setRequestProperty(&quot;Accept&quot;, &quot;application/vnd.github.v3+json&quot;);</span>
+<span class="nc" id="L186">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepoServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">repo-analyzer</a> &gt; <a href="index.source.html" class="el_package">net.pionware.oss.repo.service</a> &gt; <span class="el_source">RepoServiceImpl.java</span></div><h1>RepoServiceImpl.java</h1><pre class="source lang-java linenums">package net.pionware.oss.repo.service;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.transaction.Transactional;
+import net.pionware.oss.repo.model.entity.RepoItemEntity;
+import net.pionware.oss.repo.model.entity.RunItemEntity;
+import net.pionware.oss.repo.model.response.RepoResponse;
+import net.pionware.oss.repo.repository.RepoItemRepository;
+import net.pionware.oss.repo.repository.RunItemRepository;
+
+@Service
+public class RepoServiceImpl implements RepoService {
+<span class="nc" id="L27">	private static final Logger logger = LogManager.getLogger(RepoServiceImpl.class);</span>
+
+	final private SettingService settingService;
+    final private RepoItemRepository repoItemRepository;
+    final private RunItemRepository runItemRepository;
+    
+    @SuppressFBWarnings(value = &quot;EI_EXPOSE_REP&quot;, justification = &quot;Spring-managed bean injection; safe to expose&quot;)
+<span class="nc" id="L34">    public RepoServiceImpl(SettingService settingService, RepoItemRepository repoItemRepository, RunItemRepository runItemRepository) { </span>
+<span class="nc" id="L35">    	this.settingService = settingService;</span>
+<span class="nc" id="L36">    	this.repoItemRepository = repoItemRepository;</span>
+<span class="nc" id="L37">    	this.runItemRepository = runItemRepository;</span>
+<span class="nc" id="L38">    }</span>
+    
+	@Override
+	public int saveRepositories(RunItemEntity runItem, List&lt;RepoResponse&gt; repos) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">		if(repos == null) return 0;</span>
+		
+<span class="nc" id="L44">		List&lt;RepoItemEntity&gt; repoItems = new ArrayList&lt;&gt;(repos.size());</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (RepoResponse repo : repos) {</span>
+<span class="nc" id="L46">            RepoItemEntity repoItem = new RepoItemEntity();</span>
+            
+<span class="nc" id="L48">            repoItem.setRepoId(repo.repoId());</span>
+<span class="nc" id="L49">            repoItem.setCloneUrl(repo.cloneUrl());</span>
+<span class="nc" id="L50">            repoItem.setForks(repo.forks());</span>
+<span class="nc" id="L51">            repoItem.setFullName(repo.fullName());</span>
+<span class="nc" id="L52">            repoItem.setHasIssues(repo.hasIssues());</span>
+<span class="nc" id="L53">            repoItem.setIsPrivate(repo.isPrivate());</span>
+<span class="nc" id="L54">            repoItem.setLicense(repo.license());</span>
+<span class="nc" id="L55">            repoItem.setOpenIssues(repo.openIssues());</span>
+<span class="nc" id="L56">            repoItem.setRunItem(runItem);</span>
+<span class="nc" id="L57">            repoItem.setSize(repo.size());</span>
+<span class="nc" id="L58">            repoItem.setSshUrl(repo.sshUrl());</span>
+<span class="nc" id="L59">            repoItem.setStars(repo.stars());</span>
+<span class="nc" id="L60">            repoItem.setWatchers(repo.watchers());</span>
+<span class="nc" id="L61">            repoItem.setCreatedAt(repo.createdAt());</span>
+<span class="nc" id="L62">            repoItem.setPushedAt(repo.pushedAt());     </span>
+<span class="nc" id="L63">            repoItem.setUpdatedAt(repo.updatedAt());  </span>
+<span class="nc" id="L64">            repoItem.setComments(repo.comments());</span>
+<span class="nc" id="L65">            repoItem.setCommitId(repo.commitId());</span>
+<span class="nc" id="L66">            repoItem.setComplexity(repo.complexity());</span>
+            
+<span class="nc" id="L68">            repoItems.add(repoItem);</span>
+<span class="nc" id="L69">        }</span>
+        
+<span class="nc" id="L71">        repoItemRepository.saveAll(repoItems);</span>
+        
+<span class="nc" id="L73">        return repoItems.size();</span>
+	}
+
+	@Override
+	public List&lt;RepoResponse&gt;  getRepositories(Long runId) {
+
+<span class="nc" id="L79">		List&lt;RepoItemEntity&gt; repoItems = repoItemRepository.findByRunItemIdOrderByCreatedAtAsc(runId);</span>
+<span class="nc" id="L80">		List&lt;RepoResponse&gt; repos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (RepoItemEntity repoItem : repoItems) {</span>
+        	
+<span class="nc" id="L83">            RepoResponse repo = new RepoResponse(repoItem.getId(), repoItem.getRepoId(),repoItem.getIsPrivate(), repoItem.getFullName(), repoItem.getStars(), repoItem.getSshUrl(),</span>
+<span class="nc" id="L84">            		repoItem.getCloneUrl(), repoItem.getSize(), repoItem.getWatchers(), repoItem.getHasIssues(), repoItem.getForks(), </span>
+<span class="nc" id="L85">            		repoItem.getOpenIssues(), repoItem.getLicense(), repoItem.isCloned(), repoItem.isChosen(), repoItem.getCommits(), repoItem.getContributors(), </span>
+<span class="nc" id="L86">            		repoItem.getCreatedAt(), repoItem.getUpdatedAt(), repoItem.getPushedAt(), repoItem.getAnalyzed(), repoItem.getCoverage(), repoItem.getFailed(), </span>
+<span class="nc" id="L87">            		repoItem.getComments(), repoItem.getCommitId(), repoItem.getComplexity());</span>
+            
+<span class="nc" id="L89">            repos.add(repo);</span>
+<span class="nc" id="L90">        }</span>
+        
+<span class="nc" id="L92">		return repos;</span>
+	}
+
+	@Transactional
+	public void deleteRepositories(RunItemEntity runItem) {
+<span class="nc" id="L97">		repoItemRepository.deleteByRunItemId(runItem.getId());</span>
+<span class="nc" id="L98">	}</span>
+
+	public RepoResponse getRepository(Long id) {
+<span class="nc" id="L101">		RepoItemEntity repoItem = repoItemRepository.findById(id).get();</span>
+		
+<span class="nc" id="L103">		RepoResponse repo = new RepoResponse(repoItem.getId(), repoItem.getRepoId(),repoItem.getIsPrivate(), repoItem.getFullName(), repoItem.getStars(), repoItem.getSshUrl(),</span>
+<span class="nc" id="L104">        		repoItem.getCloneUrl(), repoItem.getSize(), repoItem.getWatchers(), repoItem.getHasIssues(), repoItem.getForks(), </span>
+<span class="nc" id="L105">        		repoItem.getOpenIssues(), repoItem.getLicense(), repoItem.isCloned(), repoItem.isChosen(), repoItem.getCommits(), repoItem.getContributors(), </span>
+<span class="nc" id="L106">        		repoItem.getCreatedAt(), repoItem.getUpdatedAt(), repoItem.getPushedAt(), repoItem.getAnalyzed(), repoItem.getCoverage(), repoItem.getFailed(), </span>
+<span class="nc" id="L107">        		repoItem.getComments(), repoItem.getCommitId(), repoItem.getComplexity());</span>
+		
+<span class="nc" id="L109">		return repo;</span>
+	}
+	
+	@Override
+	@Transactional
+	public RepoResponse updateRepository(Long id, RepoResponse repo) {
+<span class="nc" id="L115">		RepoItemEntity repoItem = repoItemRepository.findById(id).get();</span>
+		
+<span class="nc" id="L117">		repoItem.setAnalyzed(repo.analyzed());</span>
+<span class="nc" id="L118">		repoItem.setCoverage(repo.coverage());</span>
+<span class="nc" id="L119">		repoItem.setFailed(repo.failed());</span>
+<span class="nc" id="L120">		repoItem.setCommits(repo.commits());</span>
+<span class="nc" id="L121">		repoItem.setContributors(repo.contributors());</span>
+<span class="nc" id="L122">		repoItem.setCloned(repo.cloned());</span>
+<span class="nc" id="L123">		repoItem.setChosen(repo.chosen());</span>
+<span class="nc" id="L124">		repoItem.setComments(repo.comments());</span>
+<span class="nc" id="L125">		repoItem.setCommitId(repo.commitId());</span>
+<span class="nc" id="L126">		repoItem.setComplexity(repo.complexity());</span>
+		
+<span class="nc" id="L128">		RepoItemEntity updatedRepoItem = repoItemRepository.save(repoItem);</span>
+		
+		
+<span class="nc" id="L131">		RepoResponse updateRepo = new RepoResponse(updatedRepoItem.getId(), updatedRepoItem.getRepoId(),updatedRepoItem.getIsPrivate(), updatedRepoItem.getFullName(), updatedRepoItem.getStars(), updatedRepoItem.getSshUrl(),</span>
+<span class="nc" id="L132">				updatedRepoItem.getCloneUrl(), updatedRepoItem.getSize(), updatedRepoItem.getWatchers(), updatedRepoItem.getHasIssues(), updatedRepoItem.getForks(), </span>
+<span class="nc" id="L133">				updatedRepoItem.getOpenIssues(), updatedRepoItem.getLicense(), updatedRepoItem.isCloned(), updatedRepoItem.isChosen(), updatedRepoItem.getCommits(), updatedRepoItem.getContributors(), </span>
+<span class="nc" id="L134">				updatedRepoItem.getCreatedAt(), updatedRepoItem.getUpdatedAt(), updatedRepoItem.getPushedAt(), updatedRepoItem.getAnalyzed(), updatedRepoItem.getCoverage(), updatedRepoItem.getFailed(), </span>
+<span class="nc" id="L135">				updatedRepoItem.getComments(), updatedRepoItem.getCommitId(), updatedRepoItem.getComplexity());</span>
+		
+<span class="nc" id="L137">		return updateRepo;</span>
+	}
+	
+    public Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; getSample(Long runId) {
+        // Step 1: Fetch repositories from the database for the given run ID
+<span class="nc" id="L142">        List&lt;RepoItemEntity&gt; repoItems = repoItemRepository.findByRunItemIdOrderByCreatedAtAsc(runId);</span>
+
+        // Step 2: Filter by MIT and Apache-2.0 licenses
+<span class="nc" id="L145">        List&lt;RepoItemEntity&gt; filteredRepoItems = filterByLicense(repoItems);</span>
+
+        // Step 3: Group repositories by creation year
+<span class="nc" id="L148">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; groupedRepoItems = groupByCreationYear(filteredRepoItems);</span>
+
+        // Step 4: Shuffle and select samples per year
+<span class="nc" id="L151">        int maxNumber = Integer.parseInt(settingService.getSettingByKey(&quot;SAMPLE_NUM&quot;).getValue());</span>
+<span class="nc" id="L152">        logger.info(&quot;Sampling {} repositories per year&quot;, maxNumber);</span>
+<span class="nc" id="L153">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepos = shuffleRepositories(groupedRepoItems, maxNumber);</span>
+
+        // Step 5: Save sampled repositories to the database
+<span class="nc" id="L156">        saveSampledRepositories(sampledRepos);</span>
+     
+        // Step 6: update status
+<span class="nc" id="L159">        RunItemEntity runItem = runItemRepository.findById(runId).get();</span>
+<span class="nc" id="L160">        runItem.setStatus(&quot;ANALYIS_STARTED&quot;);</span>
+<span class="nc" id="L161">        runItemRepository.save(runItem);</span>
+        
+<span class="nc" id="L163">        return sampledRepos;</span>
+    }
+
+    // Filters repositories based on accepted licenses (MIT, Apache-2.0)
+    private List&lt;RepoItemEntity&gt; filterByLicense(List&lt;RepoItemEntity&gt; repoItems) {
+       // Set&lt;String&gt; acceptedLicenses = Set.of(&quot;&quot;, &quot;other&quot;);
+<span class="nc" id="L169">        return repoItems.stream()</span>
+<span class="nc bnc" id="L170" title="All 6 branches missed.">            .filter(repo -&gt; repo.getLicense() != null &amp;&amp; !repo.getLicense().isEmpty() &amp;&amp; !repo.getLicense().equalsIgnoreCase(&quot;other&quot;))</span>
+<span class="nc" id="L171">            .collect(Collectors.toList());</span>
+    }
+
+    // Groups repositories by creation year
+    private Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; groupByCreationYear(List&lt;RepoItemEntity&gt; repoItems) {
+<span class="nc" id="L176">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; grouped = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        for (RepoItemEntity repo : repoItems) {</span>
+<span class="nc" id="L178">            int year = LocalDateTime.ofInstant(repo.getCreatedAt(), ZoneId.of(&quot;UTC&quot;)).getYear();</span>
+<span class="nc" id="L179">            grouped.putIfAbsent(year, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L180">            grouped.get(year).add(repo);</span>
+<span class="nc" id="L181">        }</span>
+<span class="nc" id="L182">        return grouped;</span>
+    }
+
+    // Shuffles repositories and selects up to the target number per year
+    private Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; shuffleRepositories(Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; groupedRepos, int expectedTotal) {
+<span class="nc" id="L187">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepositories = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L188">        Random random = new Random();</span>
+
+        // Calculate total number of available repositories across all years
+<span class="nc" id="L191">        int totalAvailable = groupedRepos.values().stream().mapToInt(List::size).sum();</span>
+<span class="nc" id="L192">        logger.info(&quot;Total repositories available for sampling: {}&quot;, totalAvailable);</span>
+        // Avoid division by zero if there are no repositories
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        if (totalAvailable == 0) {</span>
+<span class="nc" id="L195">            return sampledRepositories;</span>
+        }
+
+        // Calculate proportional allocation for each year
+<span class="nc" id="L199">        Map&lt;Integer, Integer&gt; allocationPerYear = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
+<span class="nc" id="L201">            int proportionalCount = (int) Math.round(((double) entry.getValue().size() / totalAvailable) * expectedTotal);</span>
+<span class="nc" id="L202">            logger.info(&quot;Proportional count for year {}: {} &quot;, entry.getKey(), proportionalCount);</span>
+<span class="nc" id="L203">            allocationPerYear.put(entry.getKey(), proportionalCount);</span>
+<span class="nc" id="L204">        }</span>
+
+        // Adjust to ensure the total does not exceed expectedTotal
+<span class="nc" id="L207">        int actualTotal = allocationPerYear.values().stream().mapToInt(Integer::intValue).sum();</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (actualTotal &gt; expectedTotal) {</span>
+<span class="nc" id="L209">            List&lt;Integer&gt; keys = new ArrayList&lt;&gt;(allocationPerYear.keySet());</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">            while (actualTotal &gt; expectedTotal) {</span>
+<span class="nc" id="L211">                int key = keys.get(random.nextInt(keys.size()));</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                if (allocationPerYear.get(key) &gt; 0) {</span>
+<span class="nc" id="L213">                    allocationPerYear.put(key, allocationPerYear.get(key) - 1);</span>
+<span class="nc" id="L214">                    actualTotal--;</span>
+                }
+<span class="nc" id="L216">            }</span>
+        }
+
+        // Shuffle and select repositories based on proportional allocation
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
+<span class="nc" id="L221">            List&lt;RepoItemEntity&gt; repos = new ArrayList&lt;&gt;(entry.getValue());</span>
+<span class="nc" id="L222">            Collections.shuffle(repos, random);</span>
+
+<span class="nc" id="L224">            int numToSelect = allocationPerYear.getOrDefault(entry.getKey(), 0);</span>
+<span class="nc" id="L225">            logger.info(&quot;{} selected repositories for year {} &quot;, numToSelect, entry.getKey());</span>
+<span class="nc" id="L226">            List&lt;RepoItemEntity&gt; selected = repos.stream().limit(numToSelect).collect(Collectors.toList());</span>
+
+<span class="nc" id="L228">            sampledRepositories.put(entry.getKey(), selected);</span>
+<span class="nc" id="L229">        }</span>
+
+<span class="nc" id="L231">        return sampledRepositories;</span>
+    }
+    
+    @Transactional
+    public void saveSampledRepositories(Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepositories) {
+<span class="nc" id="L236">    	List&lt;RepoItemEntity&gt; entities = sampledRepositories.values().stream()</span>
+<span class="nc" id="L237">                .flatMap(List::stream)</span>
+<span class="nc" id="L238">                .map(repo -&gt; {</span>
+<span class="nc" id="L239">                	repo.setChosen(true);</span>
+<span class="nc" id="L240">                	return repo;</span>
+                })
+<span class="nc" id="L242">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L244">            repoItemRepository.saveAll(entities);</span>
+<span class="nc" id="L245">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

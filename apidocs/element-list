@@ -1,0 +1,10 @@
+net.pionware.oss.repo
+net.pionware.oss.repo.controller
+net.pionware.oss.repo.exception
+net.pionware.oss.repo.model.entity
+net.pionware.oss.repo.model.error
+net.pionware.oss.repo.model.response
+net.pionware.oss.repo.repository
+net.pionware.oss.repo.service
+net.pionware.oss.repo.service.internal
+net.pionware.oss.repo.system
