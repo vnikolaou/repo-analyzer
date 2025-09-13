@@ -23,7 +23,7 @@ jobs:
         run: mvn -B clean install
 
       - name: Run quality plugins and generate site
-        run: mvn -B verify site
+        run: mvn -B verify site -ntp
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
