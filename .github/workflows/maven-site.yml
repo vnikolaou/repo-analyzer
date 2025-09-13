@@ -2,9 +2,9 @@ name: Build and Publish Maven Site
 
 on:
   push:
-    branches: []
+    branches: [main]
   pull_request:
-    branches: []
+    branches: [main]
 
 jobs:
   build-and-site:
