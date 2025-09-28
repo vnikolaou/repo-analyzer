@@ -6,7 +6,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-08-21T20:30:21Z",
+  "lastModifiedDate" : "2025-09-27T21:42:17Z",
   "model" : {
     "people" : [ {
       "description" : "Explores and curates open-source repositories to build datasets for empirical research",
@@ -19,48 +19,85 @@
       "relationships" : [ {
         "description" : "Searches, samples, and enriches repo data",
         "destinationId" : "3",
-        "id" : "6",
+        "id" : "7",
         "sourceId" : "1",
-        "tags" : "Relationship"
+        "tags" : "Relationship,ss-rel"
       }, {
         "description" : "Searches, samples, and enriches repo data",
         "destinationId" : "2",
-        "id" : "7",
-        "linkedRelationshipId" : "6",
+        "id" : "8",
+        "linkedRelationshipId" : "7",
         "sourceId" : "1"
+      }, {
+        "description" : "Searches, samples, and enriches repo data on browser using",
+        "destinationId" : "3",
+        "id" : "9",
+        "sourceId" : "1",
+        "tags" : "Relationship,c-rel",
+        "technology" : "HTML/HTTPS:8080"
       } ],
       "tags" : "Element,Person"
     } ],
     "softwareSystems" : [ {
       "containers" : [ {
+        "description" : "Enables researchers to perform core research tasks",
         "documentation" : { },
         "id" : "3",
+        "name" : "User Inteface",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss1.ui"
+        },
+        "relationships" : [ {
+          "description" : "Makes synchronous REST API calls to",
+          "destinationId" : "4",
+          "id" : "10",
+          "sourceId" : "3",
+          "tags" : "Relationship",
+          "technology" : "JSON/HTTPS:8080"
+        } ],
+        "tags" : "Element,Container,ui",
+        "technology" : "Angular 18 / Typescript 5.4.5"
+      }, {
+        "description" : "Provides a REST API, delivering the system’s core functionality",
+        "documentation" : { },
+        "id" : "4",
         "name" : "Web Application",
         "properties" : {
           "structurizr.dsl.identifier" : "ss1.wa"
         },
         "relationships" : [ {
           "description" : "Reads from and writes to",
-          "destinationId" : "4",
-          "id" : "8",
-          "sourceId" : "3",
-          "tags" : "Relationship"
+          "destinationId" : "5",
+          "id" : "11",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "JDBC:5432"
         }, {
           "description" : "Searches open-source repositories via GitHub API",
-          "destinationId" : "5",
-          "id" : "9",
-          "sourceId" : "3",
-          "tags" : "Relationship"
+          "destinationId" : "6",
+          "id" : "12",
+          "sourceId" : "4",
+          "tags" : "Relationship,ss-rel"
+        }, {
+          "description" : "Searches for repositories making synchronous REST API calls to",
+          "destinationId" : "6",
+          "id" : "14",
+          "sourceId" : "4",
+          "tags" : "Relationship,c-rel",
+          "technology" : "JSON/HTTPS"
         } ],
-        "tags" : "Element,Container"
+        "tags" : "Element,Container,api",
+        "technology" : "Java 17 / SpringBoot 3.4.7"
       }, {
+        "description" : "Stores project metadata including repository information, sampling data, and test coverage metrics",
         "documentation" : { },
-        "id" : "4",
-        "name" : "Database Schema",
+        "id" : "5",
+        "name" : "Database",
         "properties" : {
           "structurizr.dsl.identifier" : "ss1.db"
         },
-        "tags" : "Element,Container,Database"
+        "tags" : "Element,Container,db",
+        "technology" : "PostgreSQL v15.11"
       } ],
       "description" : "Supports discovery, sampling, and metadata enrichment of GitHub repositories for research use",
       "documentation" : { },
@@ -73,16 +110,16 @@
       },
       "relationships" : [ {
         "description" : "Searches open-source repositories via GitHub API",
-        "destinationId" : "5",
-        "id" : "10",
-        "linkedRelationshipId" : "9",
+        "destinationId" : "6",
+        "id" : "13",
+        "linkedRelationshipId" : "12",
         "sourceId" : "2"
       } ],
       "tags" : "Element,Software System"
     }, {
       "description" : "Enables developers to share, maintain, and evolve open-source code collaboratively",
       "documentation" : { },
-      "id" : "5",
+      "id" : "6",
       "location" : "Unspecified",
       "name" : "GitHub Open Source Ecosystem",
       "properties" : {
@@ -93,12 +130,12 @@
   },
   "name" : "Repo-Analyzer",
   "properties" : {
-    "structurizr.dsl" : "d29ya3NwYWNlICJSZXBvLUFuYWx5emVyIiAiQXV0b21hdGluZyB0aGUgc2VsZWN0aW9uIGFuZCBzYW1wbGluZyBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciBmdXJ0aGVyIHJlc2VhcmNoIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1ID0gcGVyc29uICJSZXNlYXJjaGVyIiAiRXhwbG9yZXMgYW5kIGN1cmF0ZXMgb3Blbi1zb3VyY2UgcmVwb3NpdG9yaWVzIHRvIGJ1aWxkIGRhdGFzZXRzIGZvciBlbXBpcmljYWwgcmVzZWFyY2giCiAgICAgICAgZ3JvdXAgIlBlcnNvbmFsIFVzZSBbRW52aXJvbm1lbnRdIiAgewogICAgICAgICAgICBzczEgPSBzb2Z0d2FyZVN5c3RlbSAiUmVwby1BbmFseXplciIgIlN1cHBvcnRzIGRpc2NvdmVyeSwgc2FtcGxpbmcsIGFuZCBtZXRhZGF0YSBlbnJpY2htZW50IG9mIEdpdEh1YiByZXBvc2l0b3JpZXMgZm9yIHJlc2VhcmNoIHVzZSIgewogICAgICAgICAgICAgICAgd2EgPSBjb250YWluZXIgIldlYiBBcHBsaWNhdGlvbiIKICAgICAgICAgICAgICAgIGRiID0gY29udGFpbmVyICJEYXRhYmFzZSBTY2hlbWEiIHsKICAgICAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgc3MyID0gc29mdHdhcmVTeXN0ZW0gIkdpdEh1YiBPcGVuIFNvdXJjZSBFY29zeXN0ZW0iICJFbmFibGVzIGRldmVsb3BlcnMgdG8gc2hhcmUsIG1haW50YWluLCBhbmQgZXZvbHZlIG9wZW4tc291cmNlIGNvZGUgY29sbGFib3JhdGl2ZWx5IgoKICAgICAgICB1IC0+IHNzMS53YSAiU2VhcmNoZXMsIHNhbXBsZXMsIGFuZCBlbnJpY2hlcyByZXBvIGRhdGEiCiAgICAgICAgc3MxLndhIC0+IHNzMS5kYiAiUmVhZHMgZnJvbSBhbmQgd3JpdGVzIHRvIgoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBvcGVuLXNvdXJjZSByZXBvc2l0b3JpZXMgdmlhIEdpdEh1YiBBUEkiCiAgICB9CgogICAgdmlld3MgewogICAgICAgIHN5c3RlbUNvbnRleHQgc3MxICJEaWFncmFtLTEiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzczEgIkRpYWdyYW0tMiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b2xheW91dCBscgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRWxlbWVudCIgewogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlBlcnNvbiIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMDU1MjdkCiAgICAgICAgICAgICAgICBzaGFwZSBwZXJzb24KICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJTb2Z0d2FyZSBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA2NjI5NgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMDc3M2FmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgIHNoYXBlIGN5bGluZGVyCiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgY29uZmlndXJhdGlvbiB7CiAgICAgICAgc2NvcGUgc29mdHdhcmVzeXN0ZW0KICAgIH0KCn0="
+    "structurizr.dsl" : "d29ya3NwYWNlICJSZXBvLUFuYWx5emVyIiAiQXV0b21hdGluZyB0aGUgc2VsZWN0aW9uIGFuZCBzYW1wbGluZyBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciBmdXJ0aGVyIHJlc2VhcmNoIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKCiAgICAgICAgYXJjaGV0eXBlcyB7CiAgICAgICAgICAgIHdlYmFwcCA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJKYXZhIDE3IC8gU3ByaW5nQm9vdCAzLjQuNyIKICAgICAgICAgICAgICAgIHRhZyAiYXBpIgogICAgICAgICAgICB9CgogICAgICAgICAgICB3ZWJ1aSA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBbmd1bGFyIDE4IC8gVHlwZXNjcmlwdCA1LjQuNSIKICAgICAgICAgICAgICAgIHRhZyAidWkiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGRhdGFiYXNlID0gY29udGFpbmVyIHsKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlBvc3RncmVTUUwgdjE1LjExIgogICAgICAgICAgICAgICAgdGFnICJkYiIKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgdSA9IHBlcnNvbiAiUmVzZWFyY2hlciIgIkV4cGxvcmVzIGFuZCBjdXJhdGVzIG9wZW4tc291cmNlIHJlcG9zaXRvcmllcyB0byBidWlsZCBkYXRhc2V0cyBmb3IgZW1waXJpY2FsIHJlc2VhcmNoIgogICAgICAgIAogICAgICAgIGdyb3VwICJQZXJzb25hbCBVc2UgW0Vudmlyb25tZW50XSIgIHsKICAgICAgICAgICAgc3MxID0gc29mdHdhcmVTeXN0ZW0gIlJlcG8tQW5hbHl6ZXIiICJTdXBwb3J0cyBkaXNjb3ZlcnksIHNhbXBsaW5nLCBhbmQgbWV0YWRhdGEgZW5yaWNobWVudCBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciByZXNlYXJjaCB1c2UiIHsKICAgICAgICAgICAgICAgIHVpID0gd2VidWkgIlVzZXIgSW50ZWZhY2UiICJFbmFibGVzIHJlc2VhcmNoZXJzIHRvIHBlcmZvcm0gY29yZSByZXNlYXJjaCB0YXNrcyIKICAgICAgICAgICAgICAgIHdhID0gd2ViYXBwICJXZWIgQXBwbGljYXRpb24iICJQcm92aWRlcyBhIFJFU1QgQVBJLCBkZWxpdmVyaW5nIHRoZSBzeXN0ZW3igJlzIGNvcmUgZnVuY3Rpb25hbGl0eSIKICAgICAgICAgICAgICAgIGRiID0gZGF0YWJhc2UgIkRhdGFiYXNlIiAiU3RvcmVzIHByb2plY3QgbWV0YWRhdGEgaW5jbHVkaW5nIHJlcG9zaXRvcnkgaW5mb3JtYXRpb24sIHNhbXBsaW5nIGRhdGEsIGFuZCB0ZXN0IGNvdmVyYWdlIG1ldHJpY3MiCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHNzMiA9IHNvZnR3YXJlU3lzdGVtICJHaXRIdWIgT3BlbiBTb3VyY2UgRWNvc3lzdGVtIiAiRW5hYmxlcyBkZXZlbG9wZXJzIHRvIHNoYXJlLCBtYWludGFpbiwgYW5kIGV2b2x2ZSBvcGVuLXNvdXJjZSBjb2RlIGNvbGxhYm9yYXRpdmVseSIKICAgICAgICAKICAgICAgICB1IC0+IHNzMS51aSAiU2VhcmNoZXMsIHNhbXBsZXMsIGFuZCBlbnJpY2hlcyByZXBvIGRhdGEiIHsKICAgICAgICAgICAgdGFnICJzcy1yZWwiCiAgICAgICAgfQogICAgICAgIHUgLT4gc3MxLnVpICJTZWFyY2hlcywgc2FtcGxlcywgYW5kIGVucmljaGVzIHJlcG8gZGF0YSBvbiBicm93c2VyIHVzaW5nIiAiSFRNTC9IVFRQUzo4MDgwIiB7CiAgICAgICAgICAgIHRhZyAiYy1yZWwiCiAgICAgICAgfQoKICAgICAgICBzczEudWkgLT4gc3MxLndhICJNYWtlcyBzeW5jaHJvbm91cyBSRVNUIEFQSSBjYWxscyB0byIgIkpTT04vSFRUUFM6ODA4MCIKICAgICAgICBzczEud2EgLT4gc3MxLmRiICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJKREJDOjU0MzIiIAoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBvcGVuLXNvdXJjZSByZXBvc2l0b3JpZXMgdmlhIEdpdEh1YiBBUEkiIHsKICAgICAgICAgICAgdGFnICJzcy1yZWwiCiAgICAgICAgfQoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBmb3IgcmVwb3NpdG9yaWVzIG1ha2luZyBzeW5jaHJvbm91cyBSRVNUIEFQSSBjYWxscyB0byIgIkpTT04vSFRUUFMiIHsKICAgICAgICAgICAgdGFnICJjLXJlbCIKICAgICAgICB9ICAgICAgICAKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCBzczEgIkRpYWdyYW0tMSIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09Yy1yZWwiCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzczEgIkRpYWdyYW0tMiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09c3MtcmVsIgogICAgICAgICAgICBhdXRvbGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJFbGVtZW50IiB7CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNTUyN2QKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMDY2Mjk2CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNzczYWYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICBjb25maWd1cmF0aW9uIHsKICAgICAgICBzY29wZSBzb2Z0d2FyZXN5c3RlbQogICAgfQoKfQ=="
   },
   "views" : {
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Diagram-1",
+      "lastSavedView" : "Diagram-2",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
@@ -133,7 +170,7 @@
       },
       "dimensions" : {
         "height" : 1350,
-        "width" : 2320
+        "width" : 3070
       },
       "elements" : [ {
         "id" : "1",
@@ -149,16 +186,22 @@
         "y" : 215
       }, {
         "id" : "5",
-        "x" : 1649,
+        "x" : 2399,
+        "y" : 215
+      }, {
+        "id" : "6",
+        "x" : 2399,
         "y" : 815
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "Diagram-2",
       "order" : 2,
       "relationships" : [ {
-        "id" : "6"
+        "id" : "10"
       }, {
-        "id" : "8"
+        "id" : "11"
+      }, {
+        "id" : "14"
       }, {
         "id" : "9"
       } ],
@@ -166,7 +209,7 @@
     } ],
     "systemContextViews" : [ {
       "automaticLayout" : {
-        "applied" : true,
+        "applied" : false,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -174,30 +217,26 @@
         "rankSeparation" : 300,
         "vertices" : false
       },
-      "dimensions" : {
-        "height" : 824,
-        "width" : 2300
-      },
       "elements" : [ {
         "id" : "1",
-        "x" : 199,
-        "y" : 165
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "2",
-        "x" : 899,
-        "y" : 215
+        "x" : 0,
+        "y" : 0
       }, {
-        "id" : "5",
-        "x" : 1649,
-        "y" : 215
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "Diagram-1",
       "order" : 1,
       "relationships" : [ {
-        "id" : "10"
+        "id" : "13"
       }, {
-        "id" : "7"
+        "id" : "8"
       } ],
       "softwareSystemId" : "2"
     } ]

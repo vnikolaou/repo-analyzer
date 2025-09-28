@@ -136,8 +136,27 @@ GRANT USAGE, CREATE ON SCHEMA public TO admin;
 
 ---
 
-## 2. Architecture
+## 2. Container View
 
+With the system and its technology stack already introduced, the following section presents a C4 Level 2 (Container View) diagram. This diagram illustrates the internal structure of the RepoAnalyzer system by identifying the major containers, their responsibilities, and the interactions between them.
+
+ <img src="docs/diagrams/c4-container-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
+ 
+Identified containers:
+
+- Angular Frontend (v18)
+Runs in the researcher’s browser, providing the user interface of the system. It enables researchers to initiate core tasks such as searching for repositories, triggering sampling, collecting metadata, and updating projects with test coverage information. The frontend communicates with the backend container via REST API calls, rendering the data retrieved from the system and allowing modifications when needed.
+
+- Web Application Container (Java 17 / Spring Boot 3.4.7)
+Provides the system’s core functionality and acts as the main orchestration layer. It exposes a REST API to the Angular frontend and manages cross-cutting concerns such as security, logging, and data access. Key responsibilities include searching GitHub for repositories, selecting representative samples, and collecting test coverage metrics. It also handles persistence by communicating with the database.
+
+- PostgreSQL Database (v15.11)
+A separate process responsible for storing and retrieving project metadata and coverage metrics. It ensures that research data is managed reliably and can be accessed efficiently by the backend when serving the frontend’s requests.
+
+
+**Note:** Although not part of the RepoAnalyzer system itself, GitHub is a critical external dependency. The backend communicates with GitHub’s Search REST API over HTTPS to obtain repository information, which is then stored in the database and exposed to researchers via the frontend.
+
+Together, these containers form a coherent system: researchers interact with the frontend, which delegates tasks to the backend, which in turn integrates with both the database and GitHub to deliver the required functionality.
 
 ---
 
