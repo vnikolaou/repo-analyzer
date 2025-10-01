@@ -34,18 +34,42 @@ Together, these elements define a workflow where RepoAnalyzer acts as a bridge b
 
 ---
 
-## 1. Installation
+## 2. Container View
+
+With the system view already introduced, the following section presents a C4 Level 2 (Container View) diagram. This diagram illustrates the internal structure of the RepoAnalyzer system by identifying the major containers, their responsibilities, and the interactions between them.
+
+ <img src="docs/diagrams/c4-container-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
+ 
+Identified containers:
+
+- Angular Frontend (v18)
+Runs in the researcher’s browser, providing the user interface of the system. It enables researchers to initiate core tasks such as searching for repositories, triggering sampling, collecting metadata, and updating projects with test coverage information. The frontend communicates with the backend container via REST API calls, rendering the data retrieved from the system and allowing modifications when needed.
+
+- Web Application Container (Java 17 / Spring Boot 3.4.7)
+Provides the system’s core functionality and acts as the main orchestration layer. It exposes a REST API to the Angular frontend and manages cross-cutting concerns such as security, logging, and data access. Key responsibilities include searching GitHub for repositories, selecting representative samples, and collecting test coverage metrics. It also handles persistence by communicating with the database.
+
+- PostgreSQL Database (v15.11)
+A separate process responsible for storing and retrieving project metadata and coverage metrics. It ensures that research data is managed reliably and can be accessed efficiently by the backend when serving the frontend’s requests.
+
+
+**Note:** Although not part of the RepoAnalyzer system itself, GitHub is a critical external dependency. The backend communicates with GitHub’s Search REST API over HTTPS to obtain repository information, which is then stored in the database and exposed to researchers via the frontend.
+
+Together, these containers form a coherent system: researchers interact with the frontend, which delegates tasks to the backend, which in turn integrates with both the database and GitHub to deliver the required functionality.
+
+---
+
+## 3. Installation
 
 The project consists of a **Java-based backend** and an **Angular-based frontend**, both co-existing within the same repository. Follow the setup instructions for each part below.
 
-### 1.1. Frontend (Angular)
+### 3.1. Frontend (Angular)
 
 The following versions of external tools are used in this project to ensure compatibility and stability. It’s recommended to match these versions as closely as possible to avoid unexpected issues during development or build:
 
 - **Node.js** v22.12.0 or higher  
 - **npm** v10.9.0 or higher  
 
-#### 1.1.1. Key Frontend Dependencies
+#### 3.1.1. Key Frontend Dependencies
 The following are the main libraries and tools used in the frontend stack (as defined in `package.json`):
 
 - **Angular** v18.0.0 (`@angular/*`)
@@ -62,7 +86,7 @@ The following are the main libraries and tools used in the frontend stack (as de
 **Note:** Make sure to keep these versions consistent to avoid compatibility issues
 
 
-#### 1.1.2. Install & Run in Development Mode
+#### 3.1.2. Install & Run in Development Mode
 
 From the project root, navigate to the `frontend` directory and install the required packages:
 
@@ -88,7 +112,7 @@ Thus, if the backend is running on a different port or host, make sure to update
 
 
 
-#### 1.1.3. Build for Production
+#### 3.1.3. Build for Production
 
 To build the frontend application for production, use the provided `build-and-copy.sh` script located in the project root:
 
@@ -107,7 +131,7 @@ This setup allows the Angular frontend to be bundled directly into the Spring Bo
 
 
 
-### 1.2. Backend (Java/Spring boot)
+### 3.2. Backend (Java/Spring boot)
 
 
 -- Connect as the default superuser (postgres)
@@ -136,35 +160,11 @@ GRANT USAGE, CREATE ON SCHEMA public TO admin;
 
 ---
 
-## 2. Container View
-
-With the system and its technology stack already introduced, the following section presents a C4 Level 2 (Container View) diagram. This diagram illustrates the internal structure of the RepoAnalyzer system by identifying the major containers, their responsibilities, and the interactions between them.
-
- <img src="docs/diagrams/c4-container-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
- 
-Identified containers:
-
-- Angular Frontend (v18)
-Runs in the researcher’s browser, providing the user interface of the system. It enables researchers to initiate core tasks such as searching for repositories, triggering sampling, collecting metadata, and updating projects with test coverage information. The frontend communicates with the backend container via REST API calls, rendering the data retrieved from the system and allowing modifications when needed.
-
-- Web Application Container (Java 17 / Spring Boot 3.4.7)
-Provides the system’s core functionality and acts as the main orchestration layer. It exposes a REST API to the Angular frontend and manages cross-cutting concerns such as security, logging, and data access. Key responsibilities include searching GitHub for repositories, selecting representative samples, and collecting test coverage metrics. It also handles persistence by communicating with the database.
-
-- PostgreSQL Database (v15.11)
-A separate process responsible for storing and retrieving project metadata and coverage metrics. It ensures that research data is managed reliably and can be accessed efficiently by the backend when serving the frontend’s requests.
-
-
-**Note:** Although not part of the RepoAnalyzer system itself, GitHub is a critical external dependency. The backend communicates with GitHub’s Search REST API over HTTPS to obtain repository information, which is then stored in the database and exposed to researchers via the frontend.
-
-Together, these containers form a coherent system: researchers interact with the frontend, which delegates tasks to the backend, which in turn integrates with both the database and GitHub to deliver the required functionality.
+## 4. Features
 
 ---
 
-## 3. Features
-
----
-
-## 4. License
+## 5. License
 
 
 
