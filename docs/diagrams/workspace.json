@@ -1,13 +1,137 @@
 {
-  "configuration" : {
-    "scope" : "SoftwareSystem"
-  },
+  "configuration" : { },
   "description" : "Automating the selection and sampling of GitHub repositories for further research",
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-09-27T21:42:17Z",
+  "lastModifiedDate" : "2025-10-05T20:18:12Z",
   "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "18",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Running Locally",
+          "id" : "21",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.b06418dd-bfa8-4fe7-933d-ce0cf2bf917c.106d300a-e4cb-4098-8a0c-6ccb434ca377"
+          },
+          "relationships" : [ {
+            "description" : "Makes synchronous REST API calls to",
+            "destinationId" : "34",
+            "id" : "35",
+            "linkedRelationshipId" : "26",
+            "sourceId" : "21",
+            "technology" : "JSON/HTTPS:8080"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Running Locally",
+        "id" : "20",
+        "instances" : "1",
+        "name" : "Web Browser",
+        "properties" : {
+          "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.b06418dd-bfa8-4fe7-933d-ce0cf2bf917c"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Chrome / Firefox / Safari / Edge"
+      }, {
+        "children" : [ {
+          "containerInstances" : [ {
+            "containerId" : "3",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Running Locally",
+            "id" : "32",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.5ccba038-0e80-4006-af9d-e81b31f7a5a6.6d15675f-268c-4a4e-a4c7-2bc3fb2829a7.0db1a34b-57d2-4dfb-83a8-380ca1f06c41"
+            },
+            "relationships" : [ {
+              "description" : "Delivers to the researcher's web browser",
+              "destinationId" : "21",
+              "id" : "33",
+              "linkedRelationshipId" : "22",
+              "sourceId" : "32"
+            }, {
+              "description" : "Makes synchronous REST API calls to",
+              "destinationId" : "34",
+              "id" : "36",
+              "linkedRelationshipId" : "11",
+              "sourceId" : "32",
+              "technology" : "JSON/HTTPS"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "4",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Running Locally",
+            "id" : "34",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.5ccba038-0e80-4006-af9d-e81b31f7a5a6.6d15675f-268c-4a4e-a4c7-2bc3fb2829a7.54fe99a4-3bca-41cc-8385-cf0d749fb280"
+            },
+            "relationships" : [ {
+              "description" : "Reads from and writes to",
+              "destinationId" : "38",
+              "id" : "39",
+              "linkedRelationshipId" : "13",
+              "sourceId" : "34",
+              "technology" : "JDBC:5432"
+            } ],
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Running Locally",
+          "id" : "31",
+          "instances" : "1",
+          "name" : "Repo-Analyzer Executable",
+          "properties" : {
+            "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.5ccba038-0e80-4006-af9d-e81b31f7a5a6.6d15675f-268c-4a4e-a4c7-2bc3fb2829a7"
+          },
+          "tags" : "Element,Deployment Node",
+          "technology" : "JAR"
+        } ],
+        "environment" : "Running Locally",
+        "id" : "30",
+        "instances" : "1",
+        "name" : "Java Virtual Machine",
+        "properties" : {
+          "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.5ccba038-0e80-4006-af9d-e81b31f7a5a6"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Spring Boot Runtime"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "6",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Running Locally",
+          "id" : "38",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.94c8723d-bafb-4600-a273-bc2bb80b3fd5.2b39c498-512d-49dc-acb7-9d6ad8d3bf26"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Running Locally",
+        "id" : "37",
+        "instances" : "1",
+        "name" : "Database Server",
+        "properties" : {
+          "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227.94c8723d-bafb-4600-a273-bc2bb80b3fd5"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "PostgreSQL"
+      } ],
+      "environment" : "Running Locally",
+      "id" : "19",
+      "instances" : "1",
+      "name" : "Personal Laptop",
+      "properties" : {
+        "structurizr.dsl.identifier" : "local.7268a46c-6938-46d0-a6b1-05908a463227"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "Windows / Macos / Linux"
+    } ],
     "people" : [ {
       "description" : "Explores and curates open-source repositories to build datasets for empirical research",
       "id" : "1",
@@ -19,22 +143,22 @@
       "relationships" : [ {
         "description" : "Searches, samples, and enriches repo data",
         "destinationId" : "3",
-        "id" : "7",
+        "id" : "8",
         "sourceId" : "1",
         "tags" : "Relationship,ss-rel"
       }, {
         "description" : "Searches, samples, and enriches repo data",
         "destinationId" : "2",
-        "id" : "8",
-        "linkedRelationshipId" : "7",
+        "id" : "9",
+        "linkedRelationshipId" : "8",
         "sourceId" : "1"
       }, {
         "description" : "Searches, samples, and enriches repo data on browser using",
         "destinationId" : "3",
-        "id" : "9",
+        "id" : "10",
         "sourceId" : "1",
-        "tags" : "Relationship,c-rel",
-        "technology" : "HTML/HTTPS:8080"
+        "tags" : "Relationship,c-rel1",
+        "technology" : "HTTPS"
       } ],
       "tags" : "Element,Person"
     } ],
@@ -50,12 +174,24 @@
         "relationships" : [ {
           "description" : "Makes synchronous REST API calls to",
           "destinationId" : "4",
-          "id" : "10",
+          "id" : "11",
           "sourceId" : "3",
-          "tags" : "Relationship",
-          "technology" : "JSON/HTTPS:8080"
+          "tags" : "Relationship,c-rel1",
+          "technology" : "JSON/HTTPS"
+        }, {
+          "description" : "Delivers to the researcher's web browser",
+          "destinationId" : "18",
+          "id" : "22",
+          "sourceId" : "3",
+          "tags" : "Relationship,d-rel"
+        }, {
+          "description" : "Delivers to the researcher's web browser",
+          "destinationId" : "17",
+          "id" : "23",
+          "linkedRelationshipId" : "22",
+          "sourceId" : "3"
         } ],
-        "tags" : "Element,Container,ui",
+        "tags" : "Element,Container,UI",
         "technology" : "Angular 18 / Typescript 5.4.5"
       }, {
         "description" : "Provides a REST API, delivering the system’s core functionality",
@@ -68,25 +204,32 @@
         "relationships" : [ {
           "description" : "Reads from and writes to",
           "destinationId" : "5",
-          "id" : "11",
+          "id" : "12",
           "sourceId" : "4",
-          "tags" : "Relationship",
+          "tags" : "Relationship,c-rel1",
+          "technology" : "JDBC"
+        }, {
+          "description" : "Reads from and writes to",
+          "destinationId" : "6",
+          "id" : "13",
+          "sourceId" : "4",
+          "tags" : "Relationship,d-rel",
           "technology" : "JDBC:5432"
         }, {
           "description" : "Searches open-source repositories via GitHub API",
-          "destinationId" : "6",
-          "id" : "12",
+          "destinationId" : "7",
+          "id" : "14",
           "sourceId" : "4",
           "tags" : "Relationship,ss-rel"
         }, {
           "description" : "Searches for repositories making synchronous REST API calls to",
-          "destinationId" : "6",
-          "id" : "14",
+          "destinationId" : "7",
+          "id" : "16",
           "sourceId" : "4",
-          "tags" : "Relationship,c-rel",
+          "tags" : "Relationship,c-rel1",
           "technology" : "JSON/HTTPS"
         } ],
-        "tags" : "Element,Container,api",
+        "tags" : "Element,Container,API",
         "technology" : "Java 17 / SpringBoot 3.4.7"
       }, {
         "description" : "Stores project metadata including repository information, sampling data, and test coverage metrics",
@@ -96,7 +239,17 @@
         "properties" : {
           "structurizr.dsl.identifier" : "ss1.db"
         },
-        "tags" : "Element,Container,db",
+        "tags" : "Element,Container,Database",
+        "technology" : "PostgreSQL v15.11"
+      }, {
+        "description" : "Stores project metadata including repository information, sampling data, and test coverage metrics",
+        "documentation" : { },
+        "id" : "6",
+        "name" : "Database1",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss1.dbc"
+        },
+        "tags" : "Element,Container,Database,d-rel",
         "technology" : "PostgreSQL v15.11"
       } ],
       "description" : "Supports discovery, sampling, and metadata enrichment of GitHub repositories for research use",
@@ -110,50 +263,126 @@
       },
       "relationships" : [ {
         "description" : "Searches open-source repositories via GitHub API",
-        "destinationId" : "6",
-        "id" : "13",
-        "linkedRelationshipId" : "12",
+        "destinationId" : "7",
+        "id" : "15",
+        "linkedRelationshipId" : "14",
+        "sourceId" : "2"
+      }, {
+        "description" : "Delivers to the researcher's web browser",
+        "destinationId" : "18",
+        "id" : "24",
+        "linkedRelationshipId" : "22",
+        "sourceId" : "2"
+      }, {
+        "description" : "Delivers to the researcher's web browser",
+        "destinationId" : "17",
+        "id" : "25",
+        "linkedRelationshipId" : "22",
         "sourceId" : "2"
       } ],
       "tags" : "Element,Software System"
     }, {
       "description" : "Enables developers to share, maintain, and evolve open-source code collaboratively",
       "documentation" : { },
-      "id" : "6",
+      "id" : "7",
       "location" : "Unspecified",
       "name" : "GitHub Open Source Ecosystem",
       "properties" : {
         "structurizr.dsl.identifier" : "ss2"
       },
       "tags" : "Element,Software System"
+    }, {
+      "containers" : [ {
+        "description" : "Provides all the functionality to researchers via their web browser",
+        "documentation" : { },
+        "id" : "18",
+        "name" : "Single Page Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss3.br"
+        },
+        "relationships" : [ {
+          "description" : "Makes synchronous REST API calls to",
+          "destinationId" : "4",
+          "id" : "26",
+          "sourceId" : "18",
+          "tags" : "Relationship,d-rel",
+          "technology" : "JSON/HTTPS:8080"
+        }, {
+          "description" : "Makes synchronous REST API calls to",
+          "destinationId" : "2",
+          "id" : "27",
+          "linkedRelationshipId" : "26",
+          "sourceId" : "18",
+          "technology" : "JSON/HTTPS:8080"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Javascript / Angular"
+      } ],
+      "description" : "User’s browser for interacting with Repo-Analyzer",
+      "documentation" : { },
+      "id" : "17",
+      "location" : "Unspecified",
+      "name" : "Web Client",
+      "properties" : {
+        "structurizr.dsl.identifier" : "ss3"
+      },
+      "relationships" : [ {
+        "description" : "Makes synchronous REST API calls to",
+        "destinationId" : "4",
+        "id" : "28",
+        "linkedRelationshipId" : "26",
+        "sourceId" : "17",
+        "technology" : "JSON/HTTPS:8080"
+      }, {
+        "description" : "Makes synchronous REST API calls to",
+        "destinationId" : "2",
+        "id" : "29",
+        "linkedRelationshipId" : "26",
+        "sourceId" : "17",
+        "technology" : "JSON/HTTPS:8080"
+      } ],
+      "tags" : "Element,Software System,d-rel"
     } ]
   },
   "name" : "Repo-Analyzer",
   "properties" : {
-    "structurizr.dsl" : "d29ya3NwYWNlICJSZXBvLUFuYWx5emVyIiAiQXV0b21hdGluZyB0aGUgc2VsZWN0aW9uIGFuZCBzYW1wbGluZyBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciBmdXJ0aGVyIHJlc2VhcmNoIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKCiAgICAgICAgYXJjaGV0eXBlcyB7CiAgICAgICAgICAgIHdlYmFwcCA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJKYXZhIDE3IC8gU3ByaW5nQm9vdCAzLjQuNyIKICAgICAgICAgICAgICAgIHRhZyAiYXBpIgogICAgICAgICAgICB9CgogICAgICAgICAgICB3ZWJ1aSA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBbmd1bGFyIDE4IC8gVHlwZXNjcmlwdCA1LjQuNSIKICAgICAgICAgICAgICAgIHRhZyAidWkiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGRhdGFiYXNlID0gY29udGFpbmVyIHsKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlBvc3RncmVTUUwgdjE1LjExIgogICAgICAgICAgICAgICAgdGFnICJkYiIKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgdSA9IHBlcnNvbiAiUmVzZWFyY2hlciIgIkV4cGxvcmVzIGFuZCBjdXJhdGVzIG9wZW4tc291cmNlIHJlcG9zaXRvcmllcyB0byBidWlsZCBkYXRhc2V0cyBmb3IgZW1waXJpY2FsIHJlc2VhcmNoIgogICAgICAgIAogICAgICAgIGdyb3VwICJQZXJzb25hbCBVc2UgW0Vudmlyb25tZW50XSIgIHsKICAgICAgICAgICAgc3MxID0gc29mdHdhcmVTeXN0ZW0gIlJlcG8tQW5hbHl6ZXIiICJTdXBwb3J0cyBkaXNjb3ZlcnksIHNhbXBsaW5nLCBhbmQgbWV0YWRhdGEgZW5yaWNobWVudCBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciByZXNlYXJjaCB1c2UiIHsKICAgICAgICAgICAgICAgIHVpID0gd2VidWkgIlVzZXIgSW50ZWZhY2UiICJFbmFibGVzIHJlc2VhcmNoZXJzIHRvIHBlcmZvcm0gY29yZSByZXNlYXJjaCB0YXNrcyIKICAgICAgICAgICAgICAgIHdhID0gd2ViYXBwICJXZWIgQXBwbGljYXRpb24iICJQcm92aWRlcyBhIFJFU1QgQVBJLCBkZWxpdmVyaW5nIHRoZSBzeXN0ZW3igJlzIGNvcmUgZnVuY3Rpb25hbGl0eSIKICAgICAgICAgICAgICAgIGRiID0gZGF0YWJhc2UgIkRhdGFiYXNlIiAiU3RvcmVzIHByb2plY3QgbWV0YWRhdGEgaW5jbHVkaW5nIHJlcG9zaXRvcnkgaW5mb3JtYXRpb24sIHNhbXBsaW5nIGRhdGEsIGFuZCB0ZXN0IGNvdmVyYWdlIG1ldHJpY3MiCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHNzMiA9IHNvZnR3YXJlU3lzdGVtICJHaXRIdWIgT3BlbiBTb3VyY2UgRWNvc3lzdGVtIiAiRW5hYmxlcyBkZXZlbG9wZXJzIHRvIHNoYXJlLCBtYWludGFpbiwgYW5kIGV2b2x2ZSBvcGVuLXNvdXJjZSBjb2RlIGNvbGxhYm9yYXRpdmVseSIKICAgICAgICAKICAgICAgICB1IC0+IHNzMS51aSAiU2VhcmNoZXMsIHNhbXBsZXMsIGFuZCBlbnJpY2hlcyByZXBvIGRhdGEiIHsKICAgICAgICAgICAgdGFnICJzcy1yZWwiCiAgICAgICAgfQogICAgICAgIHUgLT4gc3MxLnVpICJTZWFyY2hlcywgc2FtcGxlcywgYW5kIGVucmljaGVzIHJlcG8gZGF0YSBvbiBicm93c2VyIHVzaW5nIiAiSFRNTC9IVFRQUzo4MDgwIiB7CiAgICAgICAgICAgIHRhZyAiYy1yZWwiCiAgICAgICAgfQoKICAgICAgICBzczEudWkgLT4gc3MxLndhICJNYWtlcyBzeW5jaHJvbm91cyBSRVNUIEFQSSBjYWxscyB0byIgIkpTT04vSFRUUFM6ODA4MCIKICAgICAgICBzczEud2EgLT4gc3MxLmRiICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJKREJDOjU0MzIiIAoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBvcGVuLXNvdXJjZSByZXBvc2l0b3JpZXMgdmlhIEdpdEh1YiBBUEkiIHsKICAgICAgICAgICAgdGFnICJzcy1yZWwiCiAgICAgICAgfQoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBmb3IgcmVwb3NpdG9yaWVzIG1ha2luZyBzeW5jaHJvbm91cyBSRVNUIEFQSSBjYWxscyB0byIgIkpTT04vSFRUUFMiIHsKICAgICAgICAgICAgdGFnICJjLXJlbCIKICAgICAgICB9ICAgICAgICAKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCBzczEgIkRpYWdyYW0tMSIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09Yy1yZWwiCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzczEgIkRpYWdyYW0tMiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09c3MtcmVsIgogICAgICAgICAgICBhdXRvbGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJFbGVtZW50IiB7CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNTUyN2QKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMDY2Mjk2CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNzczYWYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICBjb25maWd1cmF0aW9uIHsKICAgICAgICBzY29wZSBzb2Z0d2FyZXN5c3RlbQogICAgfQoKfQ=="
+    "structurizr.dsl" : "d29ya3NwYWNlICJSZXBvLUFuYWx5emVyIiAiQXV0b21hdGluZyB0aGUgc2VsZWN0aW9uIGFuZCBzYW1wbGluZyBvZiBHaXRIdWIgcmVwb3NpdG9yaWVzIGZvciBmdXJ0aGVyIHJlc2VhcmNoIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKCiAgICAgICAgYXJjaGV0eXBlcyB7CiAgICAgICAgICAgIHdlYmFwcCA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJKYXZhIDE3IC8gU3ByaW5nQm9vdCAzLjQuNyIKICAgICAgICAgICAgICAgIHRhZyAiQVBJIgogICAgICAgICAgICB9CgogICAgICAgICAgICB3ZWJ1aSA9IGNvbnRhaW5lciB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBbmd1bGFyIDE4IC8gVHlwZXNjcmlwdCA1LjQuNSIKICAgICAgICAgICAgICAgIHRhZyAiVUkiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGRhdGFiYXNlID0gY29udGFpbmVyIHsKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlBvc3RncmVTUUwgdjE1LjExIgogICAgICAgICAgICAgICAgdGFnICJEYXRhYmFzZSIKICAgICAgICAgICAgfQogICAgICAgICAgCiAgICAgICAgfQoKICAgICAgICB1ID0gcGVyc29uICJSZXNlYXJjaGVyIiAiRXhwbG9yZXMgYW5kIGN1cmF0ZXMgb3Blbi1zb3VyY2UgcmVwb3NpdG9yaWVzIHRvIGJ1aWxkIGRhdGFzZXRzIGZvciBlbXBpcmljYWwgcmVzZWFyY2giCiAgICAgICAgCiAgICAgICAgZ3JvdXAgIlBlcnNvbmFsIFVzZSBbRW52aXJvbm1lbnRdIiAgewogICAgICAgICAgICBzczEgPSBzb2Z0d2FyZVN5c3RlbSAiUmVwby1BbmFseXplciIgIlN1cHBvcnRzIGRpc2NvdmVyeSwgc2FtcGxpbmcsIGFuZCBtZXRhZGF0YSBlbnJpY2htZW50IG9mIEdpdEh1YiByZXBvc2l0b3JpZXMgZm9yIHJlc2VhcmNoIHVzZSIgewogICAgICAgICAgICAgICAgdWkgPSB3ZWJ1aSAiVXNlciBJbnRlZmFjZSIgIkVuYWJsZXMgcmVzZWFyY2hlcnMgdG8gcGVyZm9ybSBjb3JlIHJlc2VhcmNoIHRhc2tzIgogICAgICAgICAgICAgICAgd2EgPSB3ZWJhcHAgIldlYiBBcHBsaWNhdGlvbiIgIlByb3ZpZGVzIGEgUkVTVCBBUEksIGRlbGl2ZXJpbmcgdGhlIHN5c3RlbeKAmXMgY29yZSBmdW5jdGlvbmFsaXR5IgogICAgICAgICAgICAgICAgZGIgPSBkYXRhYmFzZSAiRGF0YWJhc2UiICJTdG9yZXMgcHJvamVjdCBtZXRhZGF0YSBpbmNsdWRpbmcgcmVwb3NpdG9yeSBpbmZvcm1hdGlvbiwgc2FtcGxpbmcgZGF0YSwgYW5kIHRlc3QgY292ZXJhZ2UgbWV0cmljcyIKICAgICAgICAgICAgICAgIGRiYyA9IGRhdGFiYXNlICJEYXRhYmFzZTEiICJTdG9yZXMgcHJvamVjdCBtZXRhZGF0YSBpbmNsdWRpbmcgcmVwb3NpdG9yeSBpbmZvcm1hdGlvbiwgc2FtcGxpbmcgZGF0YSwgYW5kIHRlc3QgY292ZXJhZ2UgbWV0cmljcyIgewogICAgICAgICAgICAgICAgICAgIHRhZyAiZC1yZWwiCgkJCQl9ICAgICAgICAgICAgICAKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgc3MyID0gc29mdHdhcmVTeXN0ZW0gIkdpdEh1YiBPcGVuIFNvdXJjZSBFY29zeXN0ZW0iICJFbmFibGVzIGRldmVsb3BlcnMgdG8gc2hhcmUsIG1haW50YWluLCBhbmQgZXZvbHZlIG9wZW4tc291cmNlIGNvZGUgY29sbGFib3JhdGl2ZWx5IgogICAgICAgIAogICAgICAgIHUgLT4gc3MxLnVpICJTZWFyY2hlcywgc2FtcGxlcywgYW5kIGVucmljaGVzIHJlcG8gZGF0YSIgewogICAgICAgICAgICB0YWcgInNzLXJlbCIKICAgICAgICB9CiAgICAgICAgdSAtPiBzczEudWkgIlNlYXJjaGVzLCBzYW1wbGVzLCBhbmQgZW5yaWNoZXMgcmVwbyBkYXRhIG9uIGJyb3dzZXIgdXNpbmciICJIVFRQUyIgewogICAgICAgICAgICB0YWcgImMtcmVsMSIKICAgICAgICB9CgogICAgICAgIHNzMS51aSAtPiBzczEud2EgIk1ha2VzIHN5bmNocm9ub3VzIFJFU1QgQVBJIGNhbGxzIHRvIiAiSlNPTi9IVFRQUyIgewogICAgICAgICAgICB0YWcgImMtcmVsMSIKICAgICAgICB9CiAgICAgICAgCiAgICAgICAgc3MxLndhIC0+IHNzMS5kYiAiUmVhZHMgZnJvbSBhbmQgd3JpdGVzIHRvIiAiSkRCQyIgewogICAgICAgICAgICB0YWcgImMtcmVsMSIKICAgICAgICB9CiAgICAgICAgc3MxLndhIC0+IHNzMS5kYmMgIlJlYWRzIGZyb20gYW5kIHdyaXRlcyB0byIgIkpEQkM6NTQzMiIgewogICAgICAgICAgICB0YWcgImQtcmVsIgogICAgICAgIH0KICAgICAgICAKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBvcGVuLXNvdXJjZSByZXBvc2l0b3JpZXMgdmlhIEdpdEh1YiBBUEkiIHsKICAgICAgICAgICAgdGFnICJzcy1yZWwiCiAgICAgICAgfQoKICAgICAgICBzczEud2EgLT4gc3MyICJTZWFyY2hlcyBmb3IgcmVwb3NpdG9yaWVzIG1ha2luZyBzeW5jaHJvbm91cyBSRVNUIEFQSSBjYWxscyB0byIgIkpTT04vSFRUUFMiIHsKICAgICAgICAgICAgdGFnICJjLXJlbDEiCiAgICAgICAgfSAgIAogICAgICAgIAogICAgCXNzMyA9IHNvZnR3YXJlU3lzdGVtICJXZWIgQ2xpZW50IiAiVXNlcuKAmXMgYnJvd3NlciBmb3IgaW50ZXJhY3Rpbmcgd2l0aCBSZXBvLUFuYWx5emVyIiB7CiAgICAJICAgIHRhZyAiZC1yZWwiCgkJCWJyID0gY29udGFpbmVyICJTaW5nbGUgUGFnZSBBcHBsaWNhdGlvbiIgIlByb3ZpZGVzIGFsbCB0aGUgZnVuY3Rpb25hbGl0eSB0byByZXNlYXJjaGVycyB2aWEgdGhlaXIgd2ViIGJyb3dzZXIiICJKYXZhc2NyaXB0IC8gQW5ndWxhciIKICAgICAgICB9CiAgICAgICAgCiAgICAgICAgbG9jYWwgPSBkZXBsb3ltZW50RW52aXJvbm1lbnQgIlJ1bm5pbmcgTG9jYWxseSIgewogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUGVyc29uYWwgTGFwdG9wIiB7CiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJXaW5kb3dzIC8gTWFjb3MgLyBMaW51eCIKICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJXZWIgQnJvd3NlciIgewogICAgICAgIAkJICAgIHRlY2hub2xvZ3kgIkNocm9tZSAvIEZpcmVmb3ggLyBTYWZhcmkgLyBFZGdlIgoJCQkgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHNzMy5icgoJCQkgICAgICAgIHNzMS51aSAtPiBzczMuYnIgIkRlbGl2ZXJzIHRvIHRoZSByZXNlYXJjaGVyJ3Mgd2ViIGJyb3dzZXIiIHsKICAgICAgICAgICAgICAgICAgICAgICAgdGFnICJkLXJlbCIKICAgICAgICAgICAgICAgICAgICB9CgkJCSAgICAgICAgc3MzLmJyIC0+IHNzMS53YSAiTWFrZXMgc3luY2hyb25vdXMgUkVTVCBBUEkgY2FsbHMgdG8iICJKU09OL0hUVFBTOjgwODAiewoJCQkgICAgICAgICAgICB0YWcgImQtcmVsIgoJCQkgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkphdmEgVmlydHVhbCBNYWNoaW5lIiB7CiAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QgUnVudGltZSIKCSAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUmVwby1BbmFseXplciBFeGVjdXRhYmxlIiB7CgkgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiSkFSIgoJICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHNzMS51aQoJICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHNzMS53YQoJICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkRhdGFiYXNlIFNlcnZlciIgewogICAgICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlBvc3RncmVTUUwiCiAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2Ugc3MxLmRiYwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfSAgICAKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCBzczEgIkRpYWdyYW0tMSIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09Yy1yZWwxIiAicmVsYXRpb25zaGlwLnRhZz09ZC1yZWwiICJlbGVtZW50LnRhZz09ZC1yZWwiCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzczEgIkRpYWdyYW0tMiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnRhZz09c3MtcmVsIiAicmVsYXRpb25zaGlwLnRhZz09ZC1yZWwiICJlbGVtZW50LnRhZz09ZC1yZWwiCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGRlcGxveW1lbnQgKiBsb2NhbCB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAudGFnPT1jLXJlbDEiCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHIKICAgICAgICB9CiAgICAgICAgCiAgICAgICAgCiAgICAgICAgc3R5bGVzIHsKCQkgICAgZWxlbWVudCAiRWxlbWVudCIgewoJCSAgICAgICAgY29sb3IgIzAwMDAwMCAgIAoJCSAgICB9CgkJICAgIGVsZW1lbnQgIlBlcnNvbiIgewoJCSAgICAgICAgYmFja2dyb3VuZCAjMDU1MjdkCgkJICAgICAgICBzaGFwZSBwZXJzb24KCQkgICAgICAgIGNvbG9yICNmZmZmZmYgICAKCQkgICAgfQoJCSAgICBlbGVtZW50ICJTb2Z0d2FyZSBTeXN0ZW0iIHsKCQkgICAgICAgIGJhY2tncm91bmQgIzA2NjI5NgoJCSAgICAgICAgY29sb3IgI2ZmZmZmZgoJCSAgICB9CgkJICAgIGVsZW1lbnQgIkNvbnRhaW5lciIgewoJCSAgICAgICAgYmFja2dyb3VuZCAjMDc3M2FmCgkJICAgICAgICBjb2xvciAjZmZmZmZmCgkJICAgICAgICAKCQkgICAgfQoJCSAgICBlbGVtZW50ICJEYXRhYmFzZSIgewoJCSAgICAgICAgc2hhcGUgY3lsaW5kZXIKCQkgICAgICAgIGJhY2tncm91bmQgIzA3NzNhZgoJCSAgICAgICAgY29sb3IgI2ZmZmZmZgoJCSAgICB9CgkJICAgIGVsZW1lbnQgIkRlcGxveW1lbnQgTm9kZSIgewoJCSAgICAgICAgYmFja2dyb3VuZCAjZjVmNWY1CgkJICAgICAgICBjb2xvciAjMDAwMDAwCgkJICAgIH0KCQkgICAgZWxlbWVudCAiSW5mcmFzdHJ1Y3R1cmUgTm9kZSIgewoJCSAgICAgICAgYmFja2dyb3VuZCAjZGRkZGRkCgkJICAgICAgICBjb2xvciAjMDAwMDAwCgkJICAgIH0KICAgICAgICB9CiAgICB9CgoKfQ=="
   },
   "views" : {
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Diagram-2",
+      "lastSavedView" : "Diagram-1",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
-          "color" : "#ffffff",
+          "color" : "#000000",
           "tag" : "Element"
         }, {
           "background" : "#05527d",
+          "color" : "#ffffff",
           "shape" : "Person",
           "tag" : "Person"
         }, {
           "background" : "#066296",
+          "color" : "#ffffff",
           "tag" : "Software System"
         }, {
           "background" : "#0773af",
+          "color" : "#ffffff",
           "tag" : "Container"
         }, {
+          "background" : "#0773af",
+          "color" : "#ffffff",
           "shape" : "Cylinder",
           "tag" : "Database"
+        }, {
+          "background" : "#f5f5f5",
+          "color" : "#000000",
+          "tag" : "Deployment Node"
+        }, {
+          "background" : "#dddddd",
+          "color" : "#000000",
+          "tag" : "Infrastructure Node"
         } ]
       },
       "terminology" : { }
@@ -189,7 +418,7 @@
         "x" : 2399,
         "y" : 215
       }, {
-        "id" : "6",
+        "id" : "7",
         "x" : 2399,
         "y" : 815
       } ],
@@ -201,15 +430,15 @@
       }, {
         "id" : "11"
       }, {
-        "id" : "14"
+        "id" : "12"
       }, {
-        "id" : "9"
+        "id" : "16"
       } ],
       "softwareSystemId" : "2"
     } ],
-    "systemContextViews" : [ {
+    "deploymentViews" : [ {
       "automaticLayout" : {
-        "applied" : false,
+        "applied" : true,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -217,26 +446,93 @@
         "rankSeparation" : 300,
         "vertices" : false
       },
+      "dimensions" : {
+        "height" : 1633,
+        "width" : 2522
+      },
+      "elements" : [ {
+        "id" : "19",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "20",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "21",
+        "x" : 239,
+        "y" : 525
+      }, {
+        "id" : "30",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "31",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "32",
+        "x" : 1035,
+        "y" : 225
+      }, {
+        "id" : "34",
+        "x" : 1035,
+        "y" : 825
+      }, {
+        "id" : "37",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "38",
+        "x" : 1831,
+        "y" : 825
+      } ],
+      "environment" : "Running Locally",
+      "generatedKey" : true,
+      "key" : "Deployment-001",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "33"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "39"
+      } ]
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 824,
+        "width" : 2300
+      },
       "elements" : [ {
         "id" : "1",
-        "x" : 0,
-        "y" : 0
+        "x" : 199,
+        "y" : 165
       }, {
         "id" : "2",
-        "x" : 0,
-        "y" : 0
+        "x" : 899,
+        "y" : 215
       }, {
-        "id" : "6",
-        "x" : 0,
-        "y" : 0
+        "id" : "7",
+        "x" : 1649,
+        "y" : 215
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "Diagram-1",
       "order" : 1,
       "relationships" : [ {
-        "id" : "13"
+        "id" : "15"
       }, {
-        "id" : "8"
+        "id" : "9"
       } ],
       "softwareSystemId" : "2"
     } ]
