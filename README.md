@@ -42,19 +42,38 @@ With the system view already introduced, the following section presents a C4 Lev
  
 Identified containers:
 
-- Angular Frontend (v18)
+- User Interface Container (Angular Frontend v18):
 Runs in the researcher’s browser, providing the user interface of the system. It enables researchers to initiate core tasks such as searching for repositories, triggering sampling, collecting metadata, and updating projects with test coverage information. The frontend communicates with the backend container via REST API calls, rendering the data retrieved from the system and allowing modifications when needed.
 
-- Web Application Container (Java 17 / Spring Boot 3.4.7)
+- Web Application Container (Java 17 / Spring Boot 3.4.7):
 Provides the system’s core functionality and acts as the main orchestration layer. It exposes a REST API to the Angular frontend and manages cross-cutting concerns such as security, logging, and data access. Key responsibilities include searching GitHub for repositories, selecting representative samples, and collecting test coverage metrics. It also handles persistence by communicating with the database.
 
-- PostgreSQL Database (v15.11)
+- PostgreSQL Database (v15.11):
 A separate process responsible for storing and retrieving project metadata and coverage metrics. It ensures that research data is managed reliably and can be accessed efficiently by the backend when serving the frontend’s requests.
 
 
 **Note:** Although not part of the RepoAnalyzer system itself, GitHub is a critical external dependency. The backend communicates with GitHub’s Search REST API over HTTPS to obtain repository information, which is then stored in the database and exposed to researchers via the frontend.
 
 Together, these containers form a coherent system: researchers interact with the frontend, which delegates tasks to the backend, which in turn integrates with both the database and GitHub to deliver the required functionality.
+
+---
+
+## 3. Deployment Diagram
+
+While the C4 model primarily focuses on describing the static structure of a software system across four levels of abstraction (in this document, only the system context and container levels are shown), it is equally important to illustrate how that structure becomes operational in real environments. The deployment diagram serves this purpose by showing how software containers are mapped to the physical or virtual infrastructure on which they run.
+
+<img src="docs/diagrams/c4-ext-deployment-diagram.png" style="max-width:100%; width:1600px; height:auto;" />
+
+Identified deployment nodes:
+
+- Web Browser (Chrome / Firefox / Safari / Edge):
+Executes the Single Page Application, which delivers the user interface to the researcher. It renders the Angular frontend and communicates with the backend over HTTPS REST API calls.
+
+- Java Virtual Machine (Spring Boot Runtime):
+Hosts the Repo-Analyzer Executable, which contains both the User Interface and Web Application containers. It provides the system’s core functionality, exposes the REST API, and handles data persistence and business logic.
+
+- Database Server (PostgreSQL v15.11):
+Runs the Database Schema used by the Repo-Analyzer system to store project metadata, sampling data, and test coverage metrics. It ensures persistent and reliable data storage for the application.
 
 ---
 

@@ -29,7 +29,7 @@ workspace "Repo-Analyzer" "Automating the selection and sampling of GitHub repos
                 ui = webui "User Inteface" "Enables researchers to perform core research tasks"
                 wa = webapp "Web Application" "Provides a REST API, delivering the system’s core functionality"
                 db = database "Database" "Stores project metadata including repository information, sampling data, and test coverage metrics"
-                dbc = database "Database1" "Stores project metadata including repository information, sampling data, and test coverage metrics" {
+                dbc = database "Database Schema" "Stores project metadata including repository information, sampling data, and test coverage metrics" {
                     tag "d-rel"
 				}              
             }
