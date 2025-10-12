@@ -14,7 +14,7 @@ import net.pionware.oss.repo.repository.RunItemRepository;
 
 @Service
 public class RunServiceImpl implements RunService {
-	private static final Logger logger = LogManager.getLogger(RunServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RunServiceImpl.class);
 	
     @Autowired
     private RunItemRepository runItemRepository;
@@ -65,7 +65,9 @@ public class RunServiceImpl implements RunService {
      
         File folder = new File(clonePath, id.toString());
         boolean deleted = deleteDirectory(folder);
-        logger.info("Folder {} was deleted: {}", folder.getName(), deleted);
+        if(LOGGER.isInfoEnabled()) {
+        	LOGGER.info("Folder {} was deleted: {}", folder.getName(), deleted);
+        }
   
         if (!deleted && folder.exists()) {
         	throw new IllegalStateException("Failed to delete directory: " + folder.getAbsolutePath());
@@ -99,7 +101,9 @@ public class RunServiceImpl implements RunService {
      
         File folder = new File(clonePath, id.toString());
         boolean created = folder.mkdirs();
-        logger.info("Folder {} was created: {}", folder.getName(), created);
+        if(LOGGER.isInfoEnabled()) {
+        	LOGGER.info("Folder {} was created: {}", folder.getName(), created);
+        }
   
         if (!created && folder.exists()) {
         	throw new IllegalStateException("Failed to create directory: " + folder.getAbsolutePath());

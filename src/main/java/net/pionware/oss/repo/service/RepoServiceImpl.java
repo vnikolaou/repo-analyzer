@@ -24,7 +24,7 @@ import net.pionware.oss.repo.repository.RunItemRepository;
 
 @Service
 public class RepoServiceImpl implements RepoService {
-	private static final Logger logger = LogManager.getLogger(RepoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RepoServiceImpl.class);
 
 	final private SettingService settingService;
     final private RepoItemRepository repoItemRepository;
@@ -149,7 +149,9 @@ public class RepoServiceImpl implements RepoService {
 
         // Step 4: Shuffle and select samples per year
         int maxNumber = Integer.parseInt(settingService.getSettingByKey("SAMPLE_NUM").getValue());
-        logger.info("Sampling {} repositories per year", maxNumber);
+        if(LOGGER.isInfoEnabled()) {
+        	LOGGER.info("Sampling {} repositories per year", maxNumber);
+        }
         Map<Integer, List<RepoItemEntity>> sampledRepos = shuffleRepositories(groupedRepoItems, maxNumber);
 
         // Step 5: Save sampled repositories to the database
@@ -189,7 +191,9 @@ public class RepoServiceImpl implements RepoService {
 
         // Calculate total number of available repositories across all years
         int totalAvailable = groupedRepos.values().stream().mapToInt(List::size).sum();
-        logger.info("Total repositories available for sampling: {}", totalAvailable);
+        if(LOGGER.isInfoEnabled()) {
+        	LOGGER.info("Total repositories available for sampling: {}", totalAvailable);
+        }
         // Avoid division by zero if there are no repositories
         if (totalAvailable == 0) {
             return sampledRepositories;
@@ -199,7 +203,9 @@ public class RepoServiceImpl implements RepoService {
         Map<Integer, Integer> allocationPerYear = new HashMap<>();
         for (Map.Entry<Integer, List<RepoItemEntity>> entry : groupedRepos.entrySet()) {
             int proportionalCount = (int) Math.round(((double) entry.getValue().size() / totalAvailable) * expectedTotal);
-            logger.info("Proportional count for year {}: {} ", entry.getKey(), proportionalCount);
+            if(LOGGER.isInfoEnabled()) {
+            	LOGGER.info("Proportional count for year {}: {} ", entry.getKey(), proportionalCount);
+            }
             allocationPerYear.put(entry.getKey(), proportionalCount);
         }
 
@@ -222,7 +228,9 @@ public class RepoServiceImpl implements RepoService {
             Collections.shuffle(repos, random);
 
             int numToSelect = allocationPerYear.getOrDefault(entry.getKey(), 0);
-            logger.info("{} selected repositories for year {} ", numToSelect, entry.getKey());
+            if(LOGGER.isInfoEnabled()) {
+            	LOGGER.info("{} selected repositories for year {} ", numToSelect, entry.getKey());
+            }
             List<RepoItemEntity> selected = repos.stream().limit(numToSelect).collect(Collectors.toList());
 
             sampledRepositories.put(entry.getKey(), selected);
