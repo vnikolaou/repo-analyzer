@@ -28,7 +28,7 @@ import net.pionware.oss.repo.service.internal.ResponseHandler;
 
 @Service
 final class GitHubServiceImpl implements GitHubService {
-	private static final Logger logger = LogManager.getLogger(GitHubServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(GitHubServiceImpl.class);
 
 	private static final String REPO_API_URL = "https://api.github.com/search/repositories";
 	
@@ -107,19 +107,21 @@ final class GitHubServiceImpl implements GitHubService {
     		Integer forks = item.path("forks_count").asInt();
     		Integer openIssues = item.path("open_issues_count").asInt();
     		String license = item.path("license").path("key").asText();
-    		Instant created_at = Instant.parse(item.path("created_at").asText());
-    		Instant updated_at =  Instant.parse(item.path("updated_at").asText());
-    		Instant pushed_at =  Instant.parse(item.path("pushed_at").asText());
+    		Instant createdAt = Instant.parse(item.path("created_at").asText());
+    		Instant updatedAt =  Instant.parse(item.path("updated_at").asText());
+    		Instant pushedAt =  Instant.parse(item.path("pushed_at").asText());
     		
     		RepoResponse repo = new RepoResponse(null, repoId, isPrivate, fullName, stars, 
     				sshUrl, cloneUrl, size, watchers, hasIssues, forks, openIssues, license,
-    				false, false, null, null, created_at, updated_at, pushed_at, false, null, false, null, null, null);
+    				false, false, null, null, createdAt, updatedAt, pushedAt, false, null, false, null, null, null);
 
     		repos.add(repo);
     	}
 
     	if(repos != null) {
-    		logger.debug("Received response:\n {}", objectMapper.writeValueAsString(repos));
+    		if(LOGGER.isDebugEnabled()) {
+    			LOGGER.debug("Received response:\n {}", objectMapper.writeValueAsString(repos));
+    		}
     	}
   
     	return repos;
