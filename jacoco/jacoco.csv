@@ -1,9 +1,9 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 repo-analyzer,net.pionware.oss.repo.exception,GitHubErrorException,9,0,0,0,4,0,2,0,2,0
-repo-analyzer,net.pionware.oss.repo.service,GitHubServiceImpl,391,0,24,0,84,0,23,0,11,0
+repo-analyzer,net.pionware.oss.repo.service,GitHubServiceImpl,394,0,26,0,85,0,24,0,11,0
 repo-analyzer,net.pionware.oss.repo.service,SettingServiceImpl,52,0,2,0,14,0,7,0,6,0
-repo-analyzer,net.pionware.oss.repo.service,RunServiceImpl,206,0,18,0,46,0,19,0,10,0
-repo-analyzer,net.pionware.oss.repo.service,RepoServiceImpl,717,0,26,0,130,0,27,0,14,0
+repo-analyzer,net.pionware.oss.repo.service,RunServiceImpl,212,0,22,0,48,0,21,0,10,0
+repo-analyzer,net.pionware.oss.repo.service,RepoServiceImpl,729,0,34,0,134,0,31,0,14,0
 repo-analyzer,net.pionware.oss.repo.model.response,RepoResponse,81,0,0,0,1,0,1,0,1,0
 repo-analyzer,net.pionware.oss.repo.system,GlobalExceptionHandler,35,0,0,0,9,0,3,0,3,0
 repo-analyzer,net.pionware.oss.repo.controller,RunController,41,0,0,0,8,0,7,0,7,0

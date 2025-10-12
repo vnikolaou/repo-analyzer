@@ -24,7 +24,7 @@ import net.pionware.oss.repo.repository.RunItemRepository;
 
 @Service
 public class RepoServiceImpl implements RepoService {
-<span class="nc" id="L27">	private static final Logger logger = LogManager.getLogger(RepoServiceImpl.class);</span>
+<span class="nc" id="L27">	private static final Logger LOGGER = LogManager.getLogger(RepoServiceImpl.class);</span>
 
 	final private SettingService settingService;
     final private RepoItemRepository repoItemRepository;
@@ -149,100 +149,108 @@ public class RepoServiceImpl implements RepoService {
 
         // Step 4: Shuffle and select samples per year
 <span class="nc" id="L151">        int maxNumber = Integer.parseInt(settingService.getSettingByKey(&quot;SAMPLE_NUM&quot;).getValue());</span>
-<span class="nc" id="L152">        logger.info(&quot;Sampling {} repositories per year&quot;, maxNumber);</span>
-<span class="nc" id="L153">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepos = shuffleRepositories(groupedRepoItems, maxNumber);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L153">        	LOGGER.info(&quot;Sampling {} repositories per year&quot;, maxNumber);</span>
+        }
+<span class="nc" id="L155">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepos = shuffleRepositories(groupedRepoItems, maxNumber);</span>
 
         // Step 5: Save sampled repositories to the database
-<span class="nc" id="L156">        saveSampledRepositories(sampledRepos);</span>
+<span class="nc" id="L158">        saveSampledRepositories(sampledRepos);</span>
      
         // Step 6: update status
-<span class="nc" id="L159">        RunItemEntity runItem = runItemRepository.findById(runId).get();</span>
-<span class="nc" id="L160">        runItem.setStatus(&quot;ANALYIS_STARTED&quot;);</span>
-<span class="nc" id="L161">        runItemRepository.save(runItem);</span>
+<span class="nc" id="L161">        RunItemEntity runItem = runItemRepository.findById(runId).get();</span>
+<span class="nc" id="L162">        runItem.setStatus(&quot;ANALYIS_STARTED&quot;);</span>
+<span class="nc" id="L163">        runItemRepository.save(runItem);</span>
         
-<span class="nc" id="L163">        return sampledRepos;</span>
+<span class="nc" id="L165">        return sampledRepos;</span>
     }
 
     // Filters repositories based on accepted licenses (MIT, Apache-2.0)
     private List&lt;RepoItemEntity&gt; filterByLicense(List&lt;RepoItemEntity&gt; repoItems) {
        // Set&lt;String&gt; acceptedLicenses = Set.of(&quot;&quot;, &quot;other&quot;);
-<span class="nc" id="L169">        return repoItems.stream()</span>
-<span class="nc bnc" id="L170" title="All 6 branches missed.">            .filter(repo -&gt; repo.getLicense() != null &amp;&amp; !repo.getLicense().isEmpty() &amp;&amp; !repo.getLicense().equalsIgnoreCase(&quot;other&quot;))</span>
-<span class="nc" id="L171">            .collect(Collectors.toList());</span>
+<span class="nc" id="L171">        return repoItems.stream()</span>
+<span class="nc bnc" id="L172" title="All 6 branches missed.">            .filter(repo -&gt; repo.getLicense() != null &amp;&amp; !repo.getLicense().isEmpty() &amp;&amp; !repo.getLicense().equalsIgnoreCase(&quot;other&quot;))</span>
+<span class="nc" id="L173">            .collect(Collectors.toList());</span>
     }
 
     // Groups repositories by creation year
     private Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; groupByCreationYear(List&lt;RepoItemEntity&gt; repoItems) {
-<span class="nc" id="L176">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; grouped = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">        for (RepoItemEntity repo : repoItems) {</span>
-<span class="nc" id="L178">            int year = LocalDateTime.ofInstant(repo.getCreatedAt(), ZoneId.of(&quot;UTC&quot;)).getYear();</span>
-<span class="nc" id="L179">            grouped.putIfAbsent(year, new ArrayList&lt;&gt;());</span>
-<span class="nc" id="L180">            grouped.get(year).add(repo);</span>
-<span class="nc" id="L181">        }</span>
-<span class="nc" id="L182">        return grouped;</span>
+<span class="nc" id="L178">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; grouped = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        for (RepoItemEntity repo : repoItems) {</span>
+<span class="nc" id="L180">            int year = LocalDateTime.ofInstant(repo.getCreatedAt(), ZoneId.of(&quot;UTC&quot;)).getYear();</span>
+<span class="nc" id="L181">            grouped.putIfAbsent(year, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L182">            grouped.get(year).add(repo);</span>
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">        return grouped;</span>
     }
 
     // Shuffles repositories and selects up to the target number per year
     private Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; shuffleRepositories(Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; groupedRepos, int expectedTotal) {
-<span class="nc" id="L187">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepositories = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L188">        Random random = new Random();</span>
+<span class="nc" id="L189">        Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepositories = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L190">        Random random = new Random();</span>
 
         // Calculate total number of available repositories across all years
-<span class="nc" id="L191">        int totalAvailable = groupedRepos.values().stream().mapToInt(List::size).sum();</span>
-<span class="nc" id="L192">        logger.info(&quot;Total repositories available for sampling: {}&quot;, totalAvailable);</span>
+<span class="nc" id="L193">        int totalAvailable = groupedRepos.values().stream().mapToInt(List::size).sum();</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L195">        	LOGGER.info(&quot;Total repositories available for sampling: {}&quot;, totalAvailable);</span>
+        }
         // Avoid division by zero if there are no repositories
-<span class="nc bnc" id="L194" title="All 2 branches missed.">        if (totalAvailable == 0) {</span>
-<span class="nc" id="L195">            return sampledRepositories;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (totalAvailable == 0) {</span>
+<span class="nc" id="L199">            return sampledRepositories;</span>
         }
 
         // Calculate proportional allocation for each year
-<span class="nc" id="L199">        Map&lt;Integer, Integer&gt; allocationPerYear = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L200" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
-<span class="nc" id="L201">            int proportionalCount = (int) Math.round(((double) entry.getValue().size() / totalAvailable) * expectedTotal);</span>
-<span class="nc" id="L202">            logger.info(&quot;Proportional count for year {}: {} &quot;, entry.getKey(), proportionalCount);</span>
-<span class="nc" id="L203">            allocationPerYear.put(entry.getKey(), proportionalCount);</span>
-<span class="nc" id="L204">        }</span>
+<span class="nc" id="L203">        Map&lt;Integer, Integer&gt; allocationPerYear = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
+<span class="nc" id="L205">            int proportionalCount = (int) Math.round(((double) entry.getValue().size() / totalAvailable) * expectedTotal);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">            if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L207">            	LOGGER.info(&quot;Proportional count for year {}: {} &quot;, entry.getKey(), proportionalCount);</span>
+            }
+<span class="nc" id="L209">            allocationPerYear.put(entry.getKey(), proportionalCount);</span>
+<span class="nc" id="L210">        }</span>
 
         // Adjust to ensure the total does not exceed expectedTotal
-<span class="nc" id="L207">        int actualTotal = allocationPerYear.values().stream().mapToInt(Integer::intValue).sum();</span>
-<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (actualTotal &gt; expectedTotal) {</span>
-<span class="nc" id="L209">            List&lt;Integer&gt; keys = new ArrayList&lt;&gt;(allocationPerYear.keySet());</span>
-<span class="nc bnc" id="L210" title="All 2 branches missed.">            while (actualTotal &gt; expectedTotal) {</span>
-<span class="nc" id="L211">                int key = keys.get(random.nextInt(keys.size()));</span>
-<span class="nc bnc" id="L212" title="All 2 branches missed.">                if (allocationPerYear.get(key) &gt; 0) {</span>
-<span class="nc" id="L213">                    allocationPerYear.put(key, allocationPerYear.get(key) - 1);</span>
-<span class="nc" id="L214">                    actualTotal--;</span>
+<span class="nc" id="L213">        int actualTotal = allocationPerYear.values().stream().mapToInt(Integer::intValue).sum();</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        if (actualTotal &gt; expectedTotal) {</span>
+<span class="nc" id="L215">            List&lt;Integer&gt; keys = new ArrayList&lt;&gt;(allocationPerYear.keySet());</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">            while (actualTotal &gt; expectedTotal) {</span>
+<span class="nc" id="L217">                int key = keys.get(random.nextInt(keys.size()));</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">                if (allocationPerYear.get(key) &gt; 0) {</span>
+<span class="nc" id="L219">                    allocationPerYear.put(key, allocationPerYear.get(key) - 1);</span>
+<span class="nc" id="L220">                    actualTotal--;</span>
                 }
-<span class="nc" id="L216">            }</span>
+<span class="nc" id="L222">            }</span>
         }
 
         // Shuffle and select repositories based on proportional allocation
-<span class="nc bnc" id="L220" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
-<span class="nc" id="L221">            List&lt;RepoItemEntity&gt; repos = new ArrayList&lt;&gt;(entry.getValue());</span>
-<span class="nc" id="L222">            Collections.shuffle(repos, random);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, List&lt;RepoItemEntity&gt;&gt; entry : groupedRepos.entrySet()) {</span>
+<span class="nc" id="L227">            List&lt;RepoItemEntity&gt; repos = new ArrayList&lt;&gt;(entry.getValue());</span>
+<span class="nc" id="L228">            Collections.shuffle(repos, random);</span>
 
-<span class="nc" id="L224">            int numToSelect = allocationPerYear.getOrDefault(entry.getKey(), 0);</span>
-<span class="nc" id="L225">            logger.info(&quot;{} selected repositories for year {} &quot;, numToSelect, entry.getKey());</span>
-<span class="nc" id="L226">            List&lt;RepoItemEntity&gt; selected = repos.stream().limit(numToSelect).collect(Collectors.toList());</span>
+<span class="nc" id="L230">            int numToSelect = allocationPerYear.getOrDefault(entry.getKey(), 0);</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L232">            	LOGGER.info(&quot;{} selected repositories for year {} &quot;, numToSelect, entry.getKey());</span>
+            }
+<span class="nc" id="L234">            List&lt;RepoItemEntity&gt; selected = repos.stream().limit(numToSelect).collect(Collectors.toList());</span>
 
-<span class="nc" id="L228">            sampledRepositories.put(entry.getKey(), selected);</span>
-<span class="nc" id="L229">        }</span>
+<span class="nc" id="L236">            sampledRepositories.put(entry.getKey(), selected);</span>
+<span class="nc" id="L237">        }</span>
 
-<span class="nc" id="L231">        return sampledRepositories;</span>
+<span class="nc" id="L239">        return sampledRepositories;</span>
     }
     
     @Transactional
     public void saveSampledRepositories(Map&lt;Integer, List&lt;RepoItemEntity&gt;&gt; sampledRepositories) {
-<span class="nc" id="L236">    	List&lt;RepoItemEntity&gt; entities = sampledRepositories.values().stream()</span>
-<span class="nc" id="L237">                .flatMap(List::stream)</span>
-<span class="nc" id="L238">                .map(repo -&gt; {</span>
-<span class="nc" id="L239">                	repo.setChosen(true);</span>
-<span class="nc" id="L240">                	return repo;</span>
+<span class="nc" id="L244">    	List&lt;RepoItemEntity&gt; entities = sampledRepositories.values().stream()</span>
+<span class="nc" id="L245">                .flatMap(List::stream)</span>
+<span class="nc" id="L246">                .map(repo -&gt; {</span>
+<span class="nc" id="L247">                	repo.setChosen(true);</span>
+<span class="nc" id="L248">                	return repo;</span>
                 })
-<span class="nc" id="L242">                .collect(Collectors.toList());</span>
+<span class="nc" id="L250">                .collect(Collectors.toList());</span>
 
-<span class="nc" id="L244">            repoItemRepository.saveAll(entities);</span>
-<span class="nc" id="L245">    }</span>
+<span class="nc" id="L252">            repoItemRepository.saveAll(entities);</span>
+<span class="nc" id="L253">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

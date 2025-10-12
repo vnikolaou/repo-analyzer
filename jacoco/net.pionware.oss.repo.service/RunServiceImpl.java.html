@@ -14,7 +14,7 @@ import net.pionware.oss.repo.repository.RunItemRepository;
 
 @Service
 <span class="nc" id="L16">public class RunServiceImpl implements RunService {</span>
-<span class="nc" id="L17">	private static final Logger logger = LogManager.getLogger(RunServiceImpl.class);</span>
+<span class="nc" id="L17">	private static final Logger LOGGER = LogManager.getLogger(RunServiceImpl.class);</span>
 	
     @Autowired
     private RunItemRepository runItemRepository;
@@ -65,57 +65,61 @@ import net.pionware.oss.repo.repository.RunItemRepository;
      
 <span class="nc" id="L66">        File folder = new File(clonePath, id.toString());</span>
 <span class="nc" id="L67">        boolean deleted = deleteDirectory(folder);</span>
-<span class="nc" id="L68">        logger.info(&quot;Folder {} was deleted: {}&quot;, folder.getName(), deleted);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L69">        	LOGGER.info(&quot;Folder {} was deleted: {}&quot;, folder.getName(), deleted);</span>
+        }
   
-<span class="nc bnc" id="L70" title="All 4 branches missed.">        if (!deleted &amp;&amp; folder.exists()) {</span>
-<span class="nc" id="L71">        	throw new IllegalStateException(&quot;Failed to delete directory: &quot; + folder.getAbsolutePath());</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        if (!deleted &amp;&amp; folder.exists()) {</span>
+<span class="nc" id="L73">        	throw new IllegalStateException(&quot;Failed to delete directory: &quot; + folder.getAbsolutePath());</span>
         }
 
-<span class="nc" id="L74">        repoService.deleteRepositories(runItem);</span>
+<span class="nc" id="L76">        repoService.deleteRepositories(runItem);</span>
         
-<span class="nc" id="L76">        runItemRepository.delete(runItem);</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L78">        runItemRepository.delete(runItem);</span>
+<span class="nc" id="L79">    }</span>
     
     public boolean deleteDirectory(File directory) {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (directory.isDirectory()) {</span>
-<span class="nc" id="L81">            File[] files = directory.listFiles();</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (files != null) {</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">                for (File file : files) {</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">                    if (!deleteDirectory(file)) {</span>
-<span class="nc" id="L85">                        return false;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (directory.isDirectory()) {</span>
+<span class="nc" id="L83">            File[] files = directory.listFiles();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (files != null) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                for (File file : files) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                    if (!deleteDirectory(file)) {</span>
+<span class="nc" id="L87">                        return false;</span>
                     }
                 }
             }
         }
-<span class="nc" id="L90">        return directory.delete();</span>
+<span class="nc" id="L92">        return directory.delete();</span>
     }
     
     @Override
     public RunItemEntity initCloning(Long id) {
-<span class="nc" id="L95">        RunItemEntity runItem = getRunItemById(id);</span>
-<span class="nc" id="L96">        validateRunItem(runItem);</span>
+<span class="nc" id="L97">        RunItemEntity runItem = getRunItemById(id);</span>
+<span class="nc" id="L98">        validateRunItem(runItem);</span>
 
-<span class="nc" id="L98">        String clonePath = settingService.getSettingByKey(&quot;CLONE_PATH&quot;).getValue();</span>
+<span class="nc" id="L100">        String clonePath = settingService.getSettingByKey(&quot;CLONE_PATH&quot;).getValue();</span>
      
-<span class="nc" id="L100">        File folder = new File(clonePath, id.toString());</span>
-<span class="nc" id="L101">        boolean created = folder.mkdirs();</span>
-<span class="nc" id="L102">        logger.info(&quot;Folder {} was created: {}&quot;, folder.getName(), created);</span>
+<span class="nc" id="L102">        File folder = new File(clonePath, id.toString());</span>
+<span class="nc" id="L103">        boolean created = folder.mkdirs();</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if(LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L105">        	LOGGER.info(&quot;Folder {} was created: {}&quot;, folder.getName(), created);</span>
+        }
   
-<span class="nc bnc" id="L104" title="All 4 branches missed.">        if (!created &amp;&amp; folder.exists()) {</span>
-<span class="nc" id="L105">        	throw new IllegalStateException(&quot;Failed to create directory: &quot; + folder.getAbsolutePath());</span>
+<span class="nc bnc" id="L108" title="All 4 branches missed.">        if (!created &amp;&amp; folder.exists()) {</span>
+<span class="nc" id="L109">        	throw new IllegalStateException(&quot;Failed to create directory: &quot; + folder.getAbsolutePath());</span>
         }
             
-<span class="nc" id="L108">        runItem.setStatus(&quot;SELECTION_STARTED&quot;);</span>
-<span class="nc" id="L109">        runItemRepository.save(runItem);</span>
+<span class="nc" id="L112">        runItem.setStatus(&quot;SELECTION_STARTED&quot;);</span>
+<span class="nc" id="L113">        runItemRepository.save(runItem);</span>
      
-<span class="nc" id="L111">        return runItem;</span>
+<span class="nc" id="L115">        return runItem;</span>
     }
     
 
     private void validateRunItem(RunItemEntity runItem) {
-<span class="nc bnc" id="L116" title="All 2 branches missed.">        if(runItem == null) {</span>
-<span class="nc" id="L117">        	throw new IllegalStateException(&quot;Failed to find the run item&quot;);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(runItem == null) {</span>
+<span class="nc" id="L121">        	throw new IllegalStateException(&quot;Failed to find the run item&quot;);</span>
         }
-<span class="nc" id="L119">    }</span>
+<span class="nc" id="L123">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
