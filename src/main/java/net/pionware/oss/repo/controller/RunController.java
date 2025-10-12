@@ -19,11 +19,7 @@ import net.pionware.oss.repo.service.RunService;
 
 /**
  * REST controller for managing run items.
- * 
- * <p>
- * Provides endpoints for listing, finding, creating, updating, and deleting run items.
- * </p>
- * 
+ * <p>Provides endpoints for listing, finding, creating, updating, and deleting run items.</p>
  * @author Vangelis Nikolaou
  * @since 1.0.0
  * @see net.pionware.oss.repo.service.RunService
@@ -37,10 +33,7 @@ public class RunController {
 
     /**
      * Returns a list of {@link RunItemEntity} objects stored in the database.
-     * <p>
-     * If no entries are found, this method returns {@code null}.
-     * </p>
-     * 
+     * <p>If no entries are found, this method returns {@code null}.</p>
      * @return the list of {@link RunItemEntity} objects, or {@code null} if no entries are found
      */    
     @GetMapping
