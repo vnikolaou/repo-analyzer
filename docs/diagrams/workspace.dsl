@@ -2,6 +2,8 @@ workspace "Repo-Analyzer" "Automating the selection and sampling of GitHub repos
 
     !identifiers hierarchical
 
+	!adrs "../adr"
+	
     model {
 
         archetypes {
@@ -26,7 +28,9 @@ workspace "Repo-Analyzer" "Automating the selection and sampling of GitHub repos
         
         group "Personal Use [Environment]"  {
             ss1 = softwareSystem "Repo-Analyzer" "Supports discovery, sampling, and metadata enrichment of GitHub repositories for research use" {
-                ui = webui "User Inteface" "Enables researchers to perform core research tasks"
+                ui = webui "User Inteface" "Enables researchers to perform core research tasks" {
+                    !adrs "../adr/frontend"
+                }
                 wa = webapp "Web Application" "Provides a REST API, delivering the system’s core functionality"
                 db = database "Database" "Stores project metadata including repository information, sampling data, and test coverage metrics"
                 dbc = database "Database Schema" "Stores project metadata including repository information, sampling data, and test coverage metrics" {
