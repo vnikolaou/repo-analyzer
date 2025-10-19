@@ -4,7 +4,7 @@ public class ServerError {
     private int status;
     private String message;
 
-    public ServerError(int status, String message) {
+    public ServerError(final int status, final String message) {
         this.status = status;
         this.message = message;
     }
@@ -13,7 +13,7 @@ public class ServerError {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(final int status) {
         this.status = status;
     }
 
@@ -21,7 +21,7 @@ public class ServerError {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 }

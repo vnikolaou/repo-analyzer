@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -38,13 +36,13 @@ public class RunItemEntity {
 
     @Column(name = "status", nullable = false)
     private String status;
-    
+	
     // Getters and setters
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -52,7 +50,7 @@ public class RunItemEntity {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -60,7 +58,7 @@ public class RunItemEntity {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(final LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -68,7 +66,7 @@ public class RunItemEntity {
         return searchQuery;
     }
 
-    public void setSearchQuery(String searchQuery) {
+    public void setSearchQuery(final String searchQuery) {
         this.searchQuery = searchQuery;
     }
 
@@ -76,7 +74,7 @@ public class RunItemEntity {
         return totalResults;
     }
 
-    public void setTotalResults(long totalResults) {
+    public void setTotalResults(final long totalResults) {
         this.totalResults = totalResults;
     }
 
@@ -84,7 +82,7 @@ public class RunItemEntity {
         return maxLimit;
     }
 
-    public void setMaxLimit(long maxLimit) {
+    public void setMaxLimit(final long maxLimit) {
         this.maxLimit = maxLimit;
     }
     
@@ -92,7 +90,7 @@ public class RunItemEntity {
 		return status;
 	}
 	
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 

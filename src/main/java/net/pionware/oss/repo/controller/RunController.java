@@ -19,7 +19,9 @@ import net.pionware.oss.repo.service.RunService;
 
 /**
  * REST controller for managing run items.
+ * 
  * <p>Provides endpoints for listing, finding, creating, updating, and deleting run items.</p>
+ * 
  * @author Vangelis Nikolaou
  * @since 1.0.0
  * @see net.pionware.oss.repo.service.RunService
@@ -27,13 +29,17 @@ import net.pionware.oss.repo.service.RunService;
 @RestController
 @RequestMapping("/api/run-items")
 public class RunController {
-	
-    @Autowired
-    private RunService runService;
+    private final RunService runService;
+    
+	public RunController(final RunService runService) { 
+		this.runService = runService;
+	}
 
     /**
      * Returns a list of {@link RunItemEntity} objects stored in the database.
+     * 
      * <p>If no entries are found, this method returns {@code null}.</p>
+     * 
      * @return the list of {@link RunItemEntity} objects, or {@code null} if no entries are found
      */    
     @GetMapping
@@ -42,28 +48,28 @@ public class RunController {
     }
     
 	@GetMapping("/{id}")
-	public ResponseEntity<RunItemEntity> getRunItemById(@PathVariable Long id) {
-		return ResponseEntity.ok(runService.getRunItemById(id));
+	public ResponseEntity<RunItemEntity> getRunItemById(final @PathVariable Long runItemId) {
+		return ResponseEntity.ok(runService.getRunItemById(runItemId));
 	}
 
     @PostMapping
-    public ResponseEntity<RunItemEntity> createRunItem(@RequestBody RunItemEntity runItem) {
+    public ResponseEntity<RunItemEntity> createRunItem(final @RequestBody RunItemEntity runItem) {
         return ResponseEntity.ok(runService.saveRunItem(runItem));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RunItemEntity> updateRunItem(@PathVariable Long id, @RequestBody RunItemEntity runItem) {
+    public ResponseEntity<RunItemEntity> updateRunItem(final @PathVariable Long runItemId, final @RequestBody RunItemEntity runItem) {
         return ResponseEntity.ok(runService.updateRunItem(runItem));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRunItem(@PathVariable Long id) {
-        runService.deleteRunItem(id);
+    public ResponseEntity<Void> deleteRunItem(final @PathVariable Long runItemId) {
+        runService.deleteRunItem(runItemId);
         return ResponseEntity.noContent().build();
     }
     
     @PostMapping("/init-cloning")
-    public ResponseEntity<RunItemEntity> initCloning(@RequestBody RunItemEntity runItem) throws IOException {
+    public ResponseEntity<RunItemEntity> initCloning(final @RequestBody RunItemEntity runItem) throws IOException {
     	return ResponseEntity.ok(runService.initCloning(runItem.getId()));    	 
     }
 }

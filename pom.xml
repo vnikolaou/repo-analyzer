@@ -294,6 +294,8 @@
 						<ruleset>category/java/multithreading.xml</ruleset>
 						<ruleset>category/java/performance.xml</ruleset>
 						<ruleset>category/java/security.xml</ruleset>
+						<!-- Custom overrides -->
+    					<ruleset>qa/pmd-overrides.xml</ruleset>
 					</rulesets>
 				</configuration>
 				<reportSets>

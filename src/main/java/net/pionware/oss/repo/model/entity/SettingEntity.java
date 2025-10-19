@@ -15,13 +15,13 @@ public class SettingEntity {
 
     @Column(name = "value", nullable = false)
     private String value;
-
+	
     // Getters and setters
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(final String key) {
         this.key = key;
     }
 
@@ -29,7 +29,7 @@ public class SettingEntity {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 }

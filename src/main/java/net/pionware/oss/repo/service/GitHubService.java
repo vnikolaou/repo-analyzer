@@ -6,6 +6,6 @@ import java.util.Optional;
 import net.pionware.oss.repo.model.response.RepoResponse;
 
 public interface GitHubService {
-	public Optional<Integer> getSearchTotalResults(String query) throws Exception;
-	public List<RepoResponse> fetchRepos(Long id, String query) throws Exception;
+	Optional<Integer> getSearchTotalResults(String query) throws Exception;
+	List<RepoResponse> fetchRepos(Long runItemId, String query) throws Exception;
 }

@@ -106,7 +106,7 @@ public class RepoItemEntity {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -114,7 +114,7 @@ public class RepoItemEntity {
 		return repoId;
 	}
 
-	public void setRepoId(String repoId) {
+	public void setRepoId(final String repoId) {
 		this.repoId = repoId;
 	}
 
@@ -122,7 +122,7 @@ public class RepoItemEntity {
         return isPrivate;
     }
 
-    public void setIsPrivate(Boolean isPrivate) {
+    public void setIsPrivate(final Boolean isPrivate) {
         this.isPrivate = isPrivate;
     }
 
@@ -130,7 +130,7 @@ public class RepoItemEntity {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(final String fullName) {
         this.fullName = fullName;
     }
 
@@ -138,7 +138,7 @@ public class RepoItemEntity {
         return stars;
     }
 
-    public void setStars(Integer stars) {
+    public void setStars(final Integer stars) {
         this.stars = stars;
     }
 
@@ -146,7 +146,7 @@ public class RepoItemEntity {
         return sshUrl;
     }
 
-    public void setSshUrl(String sshUrl) {
+    public void setSshUrl(final String sshUrl) {
         this.sshUrl = sshUrl;
     }
 
@@ -154,7 +154,7 @@ public class RepoItemEntity {
         return cloneUrl;
     }
 
-    public void setCloneUrl(String cloneUrl) {
+    public void setCloneUrl(final String cloneUrl) {
         this.cloneUrl = cloneUrl;
     }
 
@@ -162,7 +162,7 @@ public class RepoItemEntity {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(final Integer size) {
         this.size = size;
     }
 
@@ -170,7 +170,7 @@ public class RepoItemEntity {
         return watchers;
     }
 
-    public void setWatchers(Integer watchers) {
+    public void setWatchers(final Integer watchers) {
         this.watchers = watchers;
     }
 
@@ -178,7 +178,7 @@ public class RepoItemEntity {
         return hasIssues;
     }
 
-    public void setHasIssues(Boolean hasIssues) {
+    public void setHasIssues(final Boolean hasIssues) {
         this.hasIssues = hasIssues;
     }
 
@@ -186,7 +186,7 @@ public class RepoItemEntity {
         return forks;
     }
 
-    public void setForks(Integer forks) {
+    public void setForks(final Integer forks) {
         this.forks = forks;
     }
 
@@ -194,7 +194,7 @@ public class RepoItemEntity {
         return openIssues;
     }
 
-    public void setOpenIssues(Integer openIssues) {
+    public void setOpenIssues(final Integer openIssues) {
         this.openIssues = openIssues;
     }
 
@@ -202,7 +202,7 @@ public class RepoItemEntity {
         return license;
     }
 
-    public void setLicense(String license) {
+    public void setLicense(final String license) {
         this.license = license;
     }
     
@@ -210,7 +210,7 @@ public class RepoItemEntity {
         return runItem;
     }
 
-    public void setRunItem(RunItemEntity runItem) {
+    public void setRunItem(final RunItemEntity runItem) {
         this.runItem = runItem;
     }
 
@@ -219,7 +219,7 @@ public class RepoItemEntity {
 		return cloned;
 	}
 
-	public void setCloned(boolean cloned) {
+	public void setCloned(final boolean cloned) {
 		this.cloned = cloned;
 	}
 
@@ -227,7 +227,7 @@ public class RepoItemEntity {
 		return chosen;
 	}
 
-	public void setChosen(boolean chosen) {
+	public void setChosen(final boolean chosen) {
 		this.chosen = chosen;
 	}
 
@@ -235,7 +235,7 @@ public class RepoItemEntity {
 		return commits;
 	}
 
-	public void setCommits(Integer commits) {
+	public void setCommits(final Integer commits) {
 		this.commits = commits;
 	}
 
@@ -243,7 +243,7 @@ public class RepoItemEntity {
 		return contributors;
 	}
 
-	public void setContributors(Integer contributors) {
+	public void setContributors(final Integer contributors) {
 		this.contributors = contributors;
 	}
 
@@ -251,7 +251,7 @@ public class RepoItemEntity {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(final Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -259,7 +259,7 @@ public class RepoItemEntity {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(final Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -267,7 +267,7 @@ public class RepoItemEntity {
 		return pushedAt;
 	}
 
-	public void setPushedAt(Instant pushedAt) {
+	public void setPushedAt(final Instant pushedAt) {
 		this.pushedAt = pushedAt;
 	}
 
@@ -275,7 +275,7 @@ public class RepoItemEntity {
 		return analyzed;
 	}
 
-	public void setAnalyzed(Boolean analyzed) {
+	public void setAnalyzed(final Boolean analyzed) {
 		this.analyzed = analyzed;
 	}
 
@@ -283,7 +283,7 @@ public class RepoItemEntity {
 		return coverage;
 	}
 
-	public void setCoverage(BigDecimal coverage) {
+	public void setCoverage(final BigDecimal coverage) {
 		this.coverage = coverage;
 	}
 
@@ -291,7 +291,7 @@ public class RepoItemEntity {
 		return failed;
 	}
 
-	public void setFailed(Boolean failed) {
+	public void setFailed(final Boolean failed) {
 		this.failed = failed;
 	}
 	
@@ -299,7 +299,7 @@ public class RepoItemEntity {
 		return comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(final String comments) {
 		this.comments = comments;
 	}
 
@@ -307,7 +307,7 @@ public class RepoItemEntity {
 		return commitId;
 	}
 	
-	public void setCommitId(String commitId) {
+	public void setCommitId(final String commitId) {
 		this.commitId = commitId;
 	}
 
@@ -315,7 +315,7 @@ public class RepoItemEntity {
 		return complexity;
 	}
 
-	public void setComplexity(Integer complexity) {
+	public void setComplexity(final Integer complexity) {
 		this.complexity = complexity;
 	}
 

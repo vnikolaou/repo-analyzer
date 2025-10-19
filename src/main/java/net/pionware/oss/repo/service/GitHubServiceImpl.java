@@ -32,21 +32,21 @@ final class GitHubServiceImpl implements GitHubService {
 
 	private static final String REPO_API_URL = "https://api.github.com/search/repositories";
 	
-    private SettingService settingService;
-    private RepoService repoService;
-    private RunService runService;
+    private final SettingService settingService;
+    private final RepoService repoService;
+    private final RunService runService;
     
-    public GitHubServiceImpl(SettingService settingService, RepoService repoService, RunService runService) { 
+    public GitHubServiceImpl(final SettingService settingService, final RepoService repoService, final RunService runService) { 
     	this.settingService = settingService;
     	this.repoService = repoService;
     	this.runService = runService;
     }
 
-    public Optional<Integer> getSearchTotalResults(String query) throws Exception {
+    public Optional<Integer> getSearchTotalResults(final String query) throws Exception {
         return Optional.ofNullable(executeApiCall(query, null, null, this::parseTotalResultsResponse));
     }
     
-    public List<RepoResponse> fetchRepos(Long id, String query) throws Exception {
+    public List<RepoResponse> fetchRepos(final Long runItemId, final String query) throws Exception {
         int page = 1;
         int resultsPerPage = 30; // GitHub API default per page
 
@@ -64,14 +64,14 @@ final class GitHubServiceImpl implements GitHubService {
       
         } while (!(results == null || results.isEmpty())); 
         
-        RunItemEntity runItem = runService.getRunItemById(id);
+        RunItemEntity runItem = runService.getRunItemById(runItemId);
     
         this.repoService.saveRepositories(runItem, repos);
         
         return repos;
     }
     
-	private Integer parseTotalResultsResponse(String jsonResponse) throws IOException {
+	private Integer parseTotalResultsResponse(final String jsonResponse) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		JsonNode root = objectMapper.readTree(jsonResponse);
@@ -84,34 +84,34 @@ final class GitHubServiceImpl implements GitHubService {
 		return null;
     }
 	
-    private List<RepoResponse> parseFetchRepositoriesResponse(String jsonResponse) throws IOException{
-    	ObjectMapper objectMapper = new ObjectMapper();
+    private List<RepoResponse> parseFetchRepositoriesResponse(final String jsonResponse) throws IOException{
+    	final ObjectMapper objectMapper = new ObjectMapper();
     	objectMapper.registerModule(new JavaTimeModule());
     	
-    	JsonNode root = objectMapper.readTree(jsonResponse);
-    	JsonNode items = root.path("items");
+    	final JsonNode root = objectMapper.readTree(jsonResponse);
+    	final JsonNode items = root.path("items");
 
-    	List<RepoResponse> repos = items.isEmpty() ? null : new ArrayList<>();
+    	final List<RepoResponse> repos = items.isEmpty() ? null : new ArrayList<>();
    
     	// construct the list of Repository objects and print the list in dev mode
     	for (JsonNode item : items) {
-    		String repoId = item.path("id").asText();
-    		boolean isPrivate = item.path("private").asBoolean();
-    		String fullName = item.path("full_name").asText();
-    		Integer stars = item.path("stargazers_count").asInt();
-    		String sshUrl = item.path("ssh_url").asText();
-    		String cloneUrl = item.path("clone_url").asText();
-    		Integer size = item.path("size").asInt();
-    		Integer watchers = item.path("watchers_count").asInt();
-    		boolean hasIssues = item.path("has_issues").asBoolean();
-    		Integer forks = item.path("forks_count").asInt();
-    		Integer openIssues = item.path("open_issues_count").asInt();
-    		String license = item.path("license").path("key").asText();
-    		Instant createdAt = Instant.parse(item.path("created_at").asText());
-    		Instant updatedAt =  Instant.parse(item.path("updated_at").asText());
-    		Instant pushedAt =  Instant.parse(item.path("pushed_at").asText());
+    		final String repoId = item.path("id").asText();
+    		final boolean isPrivate = item.path("private").asBoolean();
+    		final String fullName = item.path("full_name").asText();
+    		final Integer stars = item.path("stargazers_count").asInt();
+    		final String sshUrl = item.path("ssh_url").asText();
+    		final String cloneUrl = item.path("clone_url").asText();
+    		final Integer size = item.path("size").asInt();
+    		final Integer watchers = item.path("watchers_count").asInt();
+    		final boolean hasIssues = item.path("has_issues").asBoolean();
+    		final Integer forks = item.path("forks_count").asInt();
+    		final Integer openIssues = item.path("open_issues_count").asInt();
+    		final String license = item.path("license").path("key").asText();
+    		final Instant createdAt = Instant.parse(item.path("created_at").asText());
+    		final Instant updatedAt =  Instant.parse(item.path("updated_at").asText());
+    		final Instant pushedAt =  Instant.parse(item.path("pushed_at").asText());
     		
-    		RepoResponse repo = new RepoResponse(null, repoId, isPrivate, fullName, stars, 
+    		final RepoResponse repo = new RepoResponse(null, repoId, isPrivate, fullName, stars, 
     				sshUrl, cloneUrl, size, watchers, hasIssues, forks, openIssues, license,
     				false, false, null, null, createdAt, updatedAt, pushedAt, false, null, false, null, null, null);
 
@@ -127,28 +127,28 @@ final class GitHubServiceImpl implements GitHubService {
     	return repos;
     }
   
-    private <T> T executeApiCall(String query, Integer page, Integer resultsPerPage, ResponseHandler<T> handler) throws Exception {
+    private <T> T executeApiCall(final String query, final Integer page, final Integer resultsPerPage, final ResponseHandler<T> handler) throws Exception {
         HttpURLConnection connection = null;
 
         try {
-            String token = settingService.getSettingByKey("API_TOKEN").getValue();
+        	final String token = settingService.getSettingByKey("API_TOKEN").getValue();
             String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
             if(page != null && resultsPerPage != null) {
             	encodedQuery+="&page=" + page + "&per_page=" + resultsPerPage;
             }
-            URL url = new URL(REPO_API_URL + "?q=" + encodedQuery);
+            final URL url = new URL(REPO_API_URL + "?q=" + encodedQuery);
    
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             setRequestHeaders(connection, token);
 
-            int responseCode = connection.getResponseCode();
+            final int responseCode = connection.getResponseCode();
 
             if (responseCode == 200) {
-                String response = parseResponseStream(connection);
+            	final String response = parseResponseStream(connection);
                 return handler.handle(response);
             } else {
-                String errorResponse = parseErrorStream(connection);
+            	final String errorResponse = parseErrorStream(connection);
                 throw new GitHubErrorException(errorResponse);
             }
         } finally {
@@ -158,21 +158,21 @@ final class GitHubServiceImpl implements GitHubService {
         }
     }
     
-    private String parseResponseStream(HttpURLConnection connection) throws IOException {
+    private String parseResponseStream(final HttpURLConnection connection) throws IOException {
         try (InputStream inputStream = connection.getInputStream()) {
             return readStream(inputStream);
         }
     }
 
-    private String parseErrorStream(HttpURLConnection connection) throws IOException {
+    private String parseErrorStream(final HttpURLConnection connection) throws IOException {
         try (InputStream errorStream = connection.getErrorStream()) {
             return readStream(errorStream);
         }
     }
     
-    private String readStream(InputStream inputStream) throws IOException {
+    private String readStream(final InputStream inputStream) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            StringBuilder response = new StringBuilder();
+        	final StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line);
@@ -181,7 +181,7 @@ final class GitHubServiceImpl implements GitHubService {
         }
     }
     
-    private void setRequestHeaders(HttpURLConnection connection, String token) {
+    private void setRequestHeaders(final HttpURLConnection connection, final String token) {
         connection.setRequestProperty("Authorization", "Bearer " + token);
         connection.setRequestProperty("X-GitHub-Api-Version", "2022-11-28");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");

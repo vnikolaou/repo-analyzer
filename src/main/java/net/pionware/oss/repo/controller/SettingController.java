@@ -18,8 +18,11 @@ import net.pionware.oss.repo.service.SettingService;
 @RequestMapping("/api/settings")
 public class SettingController {
 
-    @Autowired
-    private SettingService settingService;
+    private final SettingService settingService;
+    
+    public SettingController(final SettingService settingService) {
+    	this.settingService = settingService;
+    }
 
     @GetMapping
     public ResponseEntity<List<SettingEntity>> getAllSettings() {
@@ -28,12 +31,12 @@ public class SettingController {
 
     
     @GetMapping("/{key}")
-    public ResponseEntity<SettingEntity> getSettingByKey(@PathVariable String key) {
+    public ResponseEntity<SettingEntity> getSettingByKey(final @PathVariable String key) {
         return ResponseEntity.ok(settingService.getSettingByKey(key));
     }
      
     @PutMapping("/{key}")
-    public ResponseEntity<SettingEntity> updateSetting(@PathVariable String key, @RequestBody SettingEntity setting) {
+    public ResponseEntity<SettingEntity> updateSetting(final @PathVariable String key, final @RequestBody SettingEntity setting) {
     	return ResponseEntity.ok(settingService.saveSetting(setting));
     }
 
