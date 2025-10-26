@@ -74,7 +74,7 @@ public class RepoServiceImpl implements RepoService {
 	}
 
 	@Override
-	public List<RepoResponse>  getRepositories(Long runId) {
+	public List<RepoResponse> getRepositories(Long runId) {
 
 		List<RepoItemEntity> repoItems = repoItemRepository.findByRunItemIdOrderByCreatedAtAsc(runId);
 		List<RepoResponse> repos = new ArrayList<>();

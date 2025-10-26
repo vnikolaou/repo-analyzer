@@ -1,14 +1,27 @@
 <?xml version="1.0"?>
-<ruleset name="Custom Rules"
+<ruleset name="Custom PMD Ruleset"
     xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
-  <description>Overrides for PMD rules.</description>
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+        https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
-<rule ref="category/java/documentation.xml/CommentSize">
-    <properties>
-        <property name="maxLines" value="120" />
-        <property name="maxLineLength" value="160" />
-    </properties>
-</rule>
+    <description>Combined PMD ruleset with overrides</description>
+
+    <!-- Import all standard categories -->
+    <rule ref="category/java/bestpractices.xml" />
+    <rule ref="category/java/codestyle.xml" />
+    <rule ref="category/java/design.xml" />
+    <rule ref="category/java/errorprone.xml" />
+    <rule ref="category/java/multithreading.xml" />
+    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/security.xml" />
+ 	<rule ref="category/java/documentation.xml" />
+ 
+    <!-- Copy the documentation ruleset but override CommentSize -->
+    <rule ref="category/java/documentation.xml/CommentSize">
+        <properties>
+            <property name="maxLines" value="120"/>
+            <property name="maxLineLength" value="160"/>
+        </properties>
+    </rule>
 </ruleset>

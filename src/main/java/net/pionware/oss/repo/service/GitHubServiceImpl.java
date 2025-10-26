@@ -42,11 +42,11 @@ final class GitHubServiceImpl implements GitHubService {
     	this.runService = runService;
     }
 
-    public Optional<Integer> getSearchTotalResults(final String query) throws Exception {
+    public Optional<Integer> getSearchTotalResults(final String query) {
         return Optional.ofNullable(executeApiCall(query, null, null, this::parseTotalResultsResponse));
     }
     
-    public List<RepoResponse> fetchRepos(final Long runItemId, final String query) throws Exception {
+    public List<RepoResponse> fetchRepos(final Long runItemId, final String query) {
         int page = 1;
         int resultsPerPage = 30; // GitHub API default per page
 
@@ -127,7 +127,7 @@ final class GitHubServiceImpl implements GitHubService {
     	return repos;
     }
   
-    private <T> T executeApiCall(final String query, final Integer page, final Integer resultsPerPage, final ResponseHandler<T> handler) throws Exception {
+    private <T> T executeApiCall(final String query, final Integer page, final Integer resultsPerPage, final ResponseHandler<T> handler) {
         HttpURLConnection connection = null;
 
         try {
@@ -151,6 +151,8 @@ final class GitHubServiceImpl implements GitHubService {
             	final String errorResponse = parseErrorStream(connection);
                 throw new GitHubErrorException(errorResponse);
             }
+		} catch (Exception e) {
+			throw new RuntimeException("Error during API call: " + e.getMessage(), e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
